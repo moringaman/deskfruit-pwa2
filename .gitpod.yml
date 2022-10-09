@@ -18,17 +18,17 @@ tasks:
     command: |
       yarn start:dev
   - name: "frontend"
-    init: npm install && npm run build
+    init: npm install
     command: npm run start
 ports:
   - name: Backend Api
     description: This is the main application backend
-    port: 3000
+    port: 3001
     visibility: public
     onOpen: ignore
 
   - name: Web App
-    port: 9090
+    port: 3000
     description: Main front end application
     visibility: public
     onOpen: open-preview
