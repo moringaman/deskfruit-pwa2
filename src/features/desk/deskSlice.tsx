@@ -1,4 +1,6 @@
-import { createSlice, PayloadAction, createAsyncThunk } from '@reduxjs/toolkit'
+import { createSlice, 
+  //PayloadAction,
+   createAsyncThunk } from '@reduxjs/toolkit'
 import { RootState } from '../../app/store'
 import  { fetchDesk } from './deskApi';
 
