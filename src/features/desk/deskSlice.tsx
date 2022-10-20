@@ -1,8 +1,11 @@
-import { createSlice, 
+import {
+  createSlice,
   //PayloadAction,
-   createAsyncThunk } from '@reduxjs/toolkit'
+  createAsyncThunk
+} from '@reduxjs/toolkit'
 import { RootState } from '../../app/store'
-import  { fetchDesk } from './deskApi';
+import axios from 'axios'
+// import { fetchDesk } from './deskApi';
 
 
 export interface User {
@@ -13,30 +16,43 @@ export interface User {
   active: boolean,
 }
 
-export interface Desk{
-  users: User[]
+export interface Desk {
+  users: User[] | undefined
   position: 'up' | 'down'
   id: string | undefined
+  deskId: string | undefined
   name: string | undefined
   status: 'idle' | 'loading' | 'failed',
+  password: string
   authenticated: boolean
 };
 
-const initialState: Desk = {
+
+const initialState = {
+  desk: {
   users: [],
   position: 'down',
+  deskId: undefined,
   id: undefined,
   name: undefined,
-  status: 'idle',
+  password: '',
   authenticated: false
+},
+  status: 'idle',
 }
 
 export const getDeskAsync = createAsyncThunk(
-  'desk/getDesk',
-  async (desk: Desk) => {
-    const response = await fetchDesk();
-    // The value we return becomes the `fulfilled` action payload
-    return response.data;
+  'desk/fetchDesk',
+  async (id: string) => {
+    if (!!id) {
+    console.log("calling async funk ", id)
+
+      //const response = await fetchDesk(id);
+     const response = await axios.get(`https://3001-moringaman-deskfruitpwa-qf2szrg586b.ws-eu70.gitpod.io/desks/${id}`)
+      // The value we return becomes the `fulfilled` action payload
+     console.log('jhgfhfhgf' , response.data)
+      return {...response.data} 
+    }
   }
 );
 
@@ -45,17 +61,18 @@ const deskSlice = createSlice({
   initialState,
 
   reducers: {
-    deskAdded:(state, action) => {
-      state = action.payload
+    deskAdded: (state, action) => {
+      state.desk = action.payload
     },
-    deskUserAdded:(state, action) => {
-      state.users.push({
+    deskUserAdded: (state, action) => {
+      //@ts-ignore
+      state.desk.users.push = ({
         id: action.payload.id,
         name: action.payload.name,
         avatarURI: 'https://avatars/api/ramdom.svg',
         expression: '* * * * *',
         active: false
-      })
+      } as User)
     }
     // todoToggled:(state, action:PayloadAction<number>) => {
     //   const todo = state.data.find(todo => todo.id === action.payload)
@@ -73,12 +90,7 @@ const deskSlice = createSlice({
       })
       .addCase(getDeskAsync.fulfilled, (state, action) => {
         state.status = 'idle';
-        state = action.payload
-        // state.push({
-        //   id: action.payload.id,
-        //   text: action.payload.text,
-        //   completed: false
-        // })
+        state.desk = { ...action.payload}
       })
       .addCase(getDeskAsync.rejected, (state) => {
         state.status = 'failed';
@@ -87,5 +99,6 @@ const deskSlice = createSlice({
 })
 
 export const desk = (state: RootState) => state.desk
+export const status = (state: RootState) => state.desk.status
 export const { deskAdded, deskUserAdded } = deskSlice.actions
 export default deskSlice.reducer

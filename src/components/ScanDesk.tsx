@@ -1,40 +1,34 @@
 import React, { useState } from 'react'
 // import PropTypes from 'prop-types'
-import { QrReader } from 'react-qr-reader';
+import { useZxing } from "react-zxing";
 
 
 const ScanDesk = (props: any) => {
 
-  const { errorHandle, successHandle } = props
+  const { 
+    // errorHandle, 
+    successHandle
+   } = props
   const [showCamera, setShowCamera] = useState(true)
 
-  const previewStyle = {
-    height: 240,
-    width: 320,
-    border: '1px solid red'
-  }
+  // const previewStyle = {
+  //   height: 240,
+  //   width: 320,
+  //   border: '1px solid red'
+  // }
+
+  const { ref } = useZxing({
+    onResult(result:any) {
+      setShowCamera(false)
+    successHandle(result)
+    },
+  });
 
   const QrReadComp = () => {
-
+//@ts-ignore
     return (
       <>
-        <QrReader
-          //@ts-ignore
-          facingMode='environment'
-          delay={300}
-          style={previewStyle}
-          onResult={(result, error) => {
-            if (!!result) {
-              setShowCamera(false)
-              successHandle(result)
-
-            }
-
-            if (!!error) {
-              errorHandle(error)
-            }
-          }}
-        />
+       <video ref={ref} />
       </>
     )
   }
@@ -48,9 +42,5 @@ const ScanDesk = (props: any) => {
   )
 }
 
-// ScanDesk.propTypes = {
-//   errorHandle: () => { },
-//   successHandle: () => { }
-// }
 
 export default ScanDesk

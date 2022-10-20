@@ -4,11 +4,15 @@ import { configureStore,
   } from '@reduxjs/toolkit';
   import todosReducer from '../features/todos/todosSlice';
 import deskReducer from '../features/desk/deskSlice';
+import messageReducer from '../features/messages/messageSlice'
+import authReducer from '../features/auth/authenticationSlice'
 
 export const store = configureStore({
   reducer: {
     todos: todosReducer,
-    desk: deskReducer
+    desk: deskReducer,
+    messages: messageReducer,
+    auth: authReducer
   },
 });
 
