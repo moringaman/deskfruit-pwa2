@@ -11,11 +11,6 @@ const ScanDesk = (props: any) => {
    } = props
   const [showCamera, setShowCamera] = useState(true)
 
-  // const previewStyle = {
-  //   height: 240,
-  //   width: 320,
-  //   border: '1px solid red'
-  // }
 
   const { ref } = useZxing({
     onResult(result:any) {

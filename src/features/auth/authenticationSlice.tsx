@@ -1,25 +1,30 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { setMessage } from "../messages/messageSlice";
 
+import { RootState } from '../../app/store'
 import AuthService from "../../services/auth.service";
   //@ts-ignore
 
 const user = JSON.parse(localStorage.getItem("user"));
-
-export const register = createAsyncThunk(
+type formData = {
+    username: string,
+    password: string,
+    email: string
+}
+export const register = createAsyncThunk<typeof user,formData >(
   "auth/register",
   //@ts-ignore
 
+  //@ts-ignore
   async ({ username, email, password }, thunkAPI) => {
     try {
-      const response:any = await AuthService.register(username, email, password);
+      const response: any = await AuthService.register(username, email, password);
       thunkAPI.dispatch(setMessage(response.data.message));
       return response.data;
-    } catch (error:any) {
-      const message =
-        (error.response &&
-          error.response.data &&
-          error.response.data.message) ||
+    } catch (error: any) {
+      const message = (error.response &&
+        error.response.data &&
+        error.response.data.message) ||
         error.message ||
         error.toString();
       thunkAPI.dispatch(setMessage(message));
@@ -28,19 +33,19 @@ export const register = createAsyncThunk(
   }
 );
 
-export const login = createAsyncThunk(
-  "auth/login",
+export const login = createAsyncThunk<typeof user,formData >(
+  "auth/userLogin",
   //@ts-ignore
-
+ 
+  //@ts-ignore
   async ({ username, password }, thunkAPI) => {
     try {
       const data = await AuthService.login(username, password);
       return { user: data };
-    } catch (error:any) {
-      const message =
-        (error.response &&
-          error.response.data &&
-          error.response.data.message) ||
+    } catch (error: any) {
+      const message = (error.response &&
+        error.response.data &&
+        error.response.data.message) ||
         error.message ||
         error.toString();
       thunkAPI.dispatch(setMessage(message));
@@ -94,4 +99,5 @@ const authSlice = createSlice({
 });
 
 const { reducer } = authSlice;
-export default authSlice.reducer;
+export const auth = (state: RootState) => state.auth
+export default reducer;

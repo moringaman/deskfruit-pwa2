@@ -1,5 +1,5 @@
 import React from 'react';
-import {TodosPage, DeskPage, HomePage } from './pages'
+import {TodosPage, DeskPage, HomePage, AuthPage } from './pages'
 import  Layout  from './components/Layout'
 import { store } from './app/store';
 import { Provider } from 'react-redux';
@@ -22,6 +22,8 @@ function App() {
           <Route path="/" element={<HomePage />} />
           <Route path="/todos" element={<TodosPage />} />
           <Route path="/desk" element={<DeskPage />} />
+          <Route path="/auth/:scanned" element={<AuthPage />} />
+
         </Route>
       </Routes>
     </BrowserRouter>

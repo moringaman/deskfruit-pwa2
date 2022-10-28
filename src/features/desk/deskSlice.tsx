@@ -5,6 +5,7 @@ import {
 } from '@reduxjs/toolkit'
 import { RootState } from '../../app/store'
 import axios from 'axios'
+import _ from 'lodash'
 // import { fetchDesk } from './deskApi';
 
 
@@ -30,32 +31,54 @@ export interface Desk {
 
 const initialState = {
   desk: {
-  users: [],
-  position: 'down',
-  deskId: undefined,
-  id: undefined,
-  name: undefined,
-  password: '',
-  authenticated: false
-},
+    users: [],
+    position: 'down',
+    deskId: undefined,
+    id: undefined,
+    name: undefined,
+    password: '',
+    authenticated: false
+  },
   status: 'idle',
+  device: {
+    id: undefined,
+    online: false,
+  }
 }
 
 export const getDeskAsync = createAsyncThunk(
   'desk/fetchDesk',
   async (id: string) => {
     if (!!id) {
-    console.log("calling async funk ", id)
+      console.log("calling async funk ", id)
 
       //const response = await fetchDesk(id);
-     const response = await axios.get(`https://3001-moringaman-deskfruitpwa-qf2szrg586b.ws-eu70.gitpod.io/desks/${id}`)
+      const response = await axios.get(`https://3001-moringaman-deskfruitpwa-qmx85bfme7z.ws-eu72.gitpod.io/desks/${id}`)
       // The value we return becomes the `fulfilled` action payload
-     console.log('jhgfhfhgf' , response.data)
-      return {...response.data} 
+      console.log('deskasync', response.data)
+      return { ...response.data }
     }
   }
 );
 
+export const getDeviceAsync = createAsyncThunk(
+  'desk/fetchDevice',
+  async (id: string) => {
+    if (!!id) {
+      console.log("calling async funk ", id)
+      try {
+        const response = await axios.get(`https://3001-moringaman-deskfruitpwa-qmx85bfme7z.ws-eu72.gitpod.io/desks/devices/${id}`)
+        if (_.isEmpty(response)) {
+          throw new Error('device not found')
+        }
+        console.log('device asybc', response.data)
+        return { ...response.data }
+      } catch (err) {
+        throw new Error('device not found')
+      }
+    }
+  }
+);
 const deskSlice = createSlice({
   name: 'desk',
   initialState,
@@ -90,9 +113,19 @@ const deskSlice = createSlice({
       })
       .addCase(getDeskAsync.fulfilled, (state, action) => {
         state.status = 'idle';
-        state.desk = { ...action.payload}
+        state.desk = { ...action.payload }
       })
       .addCase(getDeskAsync.rejected, (state) => {
+        state.status = 'failed';
+      })
+      .addCase(getDeviceAsync.pending, (state) => {
+        state.status = 'loading';
+      })
+      .addCase(getDeviceAsync.fulfilled, (state, action) => {
+        state.status = 'idle';
+        state.device = { ...action.payload }
+      })
+      .addCase(getDeviceAsync.rejected, (state) => {
         state.status = 'failed';
       });
   },
@@ -100,5 +133,6 @@ const deskSlice = createSlice({
 
 export const desk = (state: RootState) => state.desk
 export const status = (state: RootState) => state.desk.status
+export const device = (state: RootState) => state.desk.device
 export const { deskAdded, deskUserAdded } = deskSlice.actions
 export default deskSlice.reducer
