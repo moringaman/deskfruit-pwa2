@@ -20,8 +20,14 @@ const AuthComponent2 = (props:any) => {
   
    const [formData, setFormData] = useState({id: scanned, email: '', password: ''})
    const [ emailvalid, setEmailValid ] = useState(false)
+   const [ passwordValid, setPasswordValid ] = useState(false)
 
    const passwdRef = useRef<HTMLInputElement>(null)
+
+   const styles = {
+    invalid: formData.password !== "" ? 'bg-red-50 border border-red-500 text-red-900': null,
+    valid: 'bg-green-50 text-green-900 dark:text-green-400 placeholder-green-700 dark:placeholder-green-500 text-sm rounded-lg block w-full p-2.5 dark:bg-gray-700 dark:border-green-500'
+   }
 
   const handleSubmit = (e:any):void => {
       e.preventDefault()
@@ -29,14 +35,16 @@ const AuthComponent2 = (props:any) => {
   }
 
   const emailIsValid = (email: string):boolean => {
-    const emailCheck = new RegExp(/^[a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/)
+    const emailCheck = new RegExp(/^[a-zA-Z0-9.!#$%&'*+=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/)
     const isValid = emailCheck.test(email) ? true : false
     console.log('email validation', emailIsValid)
     return isValid
   }
 
   const passwordIsValid = (password:string):boolean => {
-    const passwordCheck = new RegExp(/((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$/)
+    const passwordCheck = 
+    new RegExp(/((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$/)
+    console.log("password check ",password, passwordCheck.test(password))
     return passwordCheck.test(password)
   }
 
@@ -44,8 +52,11 @@ const AuthComponent2 = (props:any) => {
     // validate email & password fields
     // const updateKey = formData.hasOwnProperty(e.target.name)? e.target.value : null
     const key = e.target.name
+    const value = e.target.value
     if (key === 'email') {
-      setEmailValid(emailIsValid(key))
+      setEmailValid(emailIsValid(value))
+    } else {
+      setPasswordValid(passwordIsValid(value))
     }
       setFormData({
         ...formData,
@@ -98,7 +109,7 @@ useEffect(()=> {
                       name="email"
                       placeholder="you@email.com"
                       required
-                      className="w-full px-3 py-2 placeholder-gray-300 border border-gray-300 rounded-md  focus:outline-none focus:ring focus:ring-indigo-100 focus:border-indigo-300"
+                      className="w-full px-3 py-2 placeholder-gray-300 border border-gray-300 rounded-md  focus:outline-none focus:ring"
                     />
                   </div>
                 }
@@ -112,7 +123,7 @@ useEffect(()=> {
                     name="password"
                     placeholder="Password"
                     required
-                    className="w-full px-3 py-2 placeholder-gray-300 text-gray-500 border border-gray-300 rounded-md  focus:outline-none focus:ring focus:ring-indigo-100 focus:border-indigo-300"
+                    className={`${passwordValid ? styles.valid : styles.invalid} w-full px-3 py-2 placeholder-gray-300 text-gray-500 border border-gray-300 rounded-md  focus:outline-none focus:ring focus:ring-indigo-100 focus:border-indigo-300`}
                   />
                 </div>
                 <div className="mb-6">

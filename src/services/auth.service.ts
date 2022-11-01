@@ -1,19 +1,22 @@
 import axios from "axios";
+import env from "react-dotenv";
+import { API_BASE_URL } from '../config'
 
-const API_URL = "https://3001-moringaman-deskfruitpwa-qf2szrg586b.ws-eu70.gitpod.io/desks/";
+const API_URL = `${API_BASE_URL}/desks/`;
+console.log('API URL ', API_URL, env, process.env)
 
-const register = (deskid:string, email:string, password:string) => {
+const register = (deskId:string, email:string, password:string) => {
   return axios.post(API_URL + "signup", {
-    deskid,
+    deskId,
     email,
     password,
   });
 };
 
-const login = (deskid:string, password:string) => {
+const login = (deskId:string, password:string) => {
   return axios
     .post(API_URL + "signin", {
-      deskid,
+      deskId,
       password,
     })
     .then((response) => {

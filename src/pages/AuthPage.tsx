@@ -1,9 +1,9 @@
 import { useEffect } from 'react'
-import { useParams } from 'react-router-dom'
+import { useParams, Navigate } from 'react-router-dom'
 import { register, login, auth } from '../features/auth/authenticationSlice'
 import {
   useAppSelector,
-  useAppDispatch
+  useAppDispatch,
 } from '../app/hooks'
 import  AuthComponent2 from '../components/AuthComponent2'
 
@@ -21,15 +21,17 @@ const AuthPage = () => {
 
   const handleAuth = (action:string, payload:any) => {
     console.log('Loggin in', action, payload)
-    const {deskId:username, email, password} = payload
-    dispatch(action === 'register' ? register({username, email, password}) : login({username, email, password}))
+    const {id:deskId, email, password} = payload
+    dispatch(action === 'register' ? register({deskId, email, password}) : login({deskId, email, password}))
   }
 
 
-  
-
   return (
     <>
+    {
+      isLoggedIn &&
+      <Navigate to='/profile' replace={true} />
+    }
      <AuthComponent2 scanned={scanned} handleAuth={handleAuth} />
     </>
   )

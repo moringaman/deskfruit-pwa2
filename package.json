@@ -16,6 +16,8 @@
     "lodash": "^4.17.21",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-dotenv": "^0.1.3",
+    "react-feather": "^2.0.10",
     "react-redux": "^8.0.4",
     "react-router-dom": "^6.4.2",
     "react-scripts": "5.0.1",
@@ -38,8 +40,8 @@
     "workbox-streams": "^6.5.4"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
+    "start": "react-dotenv && react-scripts start",
+    "build": "react-dotenv && react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "watch": "npm-watch"
@@ -71,5 +73,11 @@
   },
   "watch": {
     "build": "src/"
+  },
+  "react-dotenv": {
+    "whitelist": [
+      "WDS_SOCKET_PORT",
+      "GITPOD_WORKSPACE_ID"
+    ]
   }
 }

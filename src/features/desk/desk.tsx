@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
-import { Navigate} from 'react-router-dom'
+import { Navigate, useNavigate } from 'react-router-dom'
+import { Camera } from 'react-feather'
 import _ from 'lodash'
 import {
   useAppSelector,
@@ -16,7 +17,7 @@ import ScanDesk from '../../components/ScanDesk'
 
 
 const IDesk = () => {
-
+  const navigate = useNavigate()
   const deskState = useAppSelector(desk)
   const dispatch = useAppDispatch()
   const [scanDesk, setScanDesk] = useState(false)
@@ -24,7 +25,7 @@ const IDesk = () => {
   const [validCode, setValidCode] = useState(false)
 
   const activateScan = () => {
-    return scanDesk === true && validCode === false
+    return (scanDesk === true && validCode === false) || (scanDesk === true && deskState?.desk.deskId === undefined)
   } 
 
   type Data = {
@@ -91,20 +92,20 @@ const IDesk = () => {
   return (
     <div className="container mx-auto">
       { !data.hasOwnProperty('text') &&//|| !validCode &&
+      <>
         <button 
-        className="group relative mx-auto 
-        lex mt-5 mb-5 justify-center rounded-md border border-transparent py-2 px-4 text-sm font-medium text-white bg-black hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+            type="button" 
           onClick={() => {
-            console.log("scan desk clicked", activateScan())
-
             setScanDesk(!scanDesk)
           }}
-        >
-         SCAN QRCODE TO START USING DESK
-        </button>
+            className="group relative mx-auto flex justify-center text-blue-700 border-2 border border-blue-700 hover:bg-blue-700 hover:text-white focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-full text-sm p-8 text-center items-center dark:border-blue-500 dark:text-blue-500 dark:hover:text-white dark:focus:ring-blue-800"
+            >
+            <Camera size="40"/>
+      </button>
+      </>
       }
      
-      {activateScan() &&
+      {activateScan() && 
         <>
           <p>Scan the Qr Code on your desk to begin</p>
           <ScanDesk successHandle={handleScan} errorHandle={handleError} />
@@ -112,7 +113,8 @@ const IDesk = () => {
       }
       {/* {deskState?.desk?.password && */}
       {
-       deskId && !_.isEmpty(deskState?.device) &&
+       deskId &&
+        !_.isEmpty(deskState?.device) &&
         <>
         <Navigate to={`/auth/${deskId}`} />
         </>

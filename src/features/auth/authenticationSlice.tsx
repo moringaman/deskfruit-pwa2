@@ -7,7 +7,7 @@ import AuthService from "../../services/auth.service";
 
 const user = JSON.parse(localStorage.getItem("user"));
 type formData = {
-    username: string,
+    deskId: string,
     password: string,
     email: string
 }
@@ -16,9 +16,9 @@ export const register = createAsyncThunk<typeof user,formData >(
   //@ts-ignore
 
   //@ts-ignore
-  async ({ username, email, password }, thunkAPI) => {
+  async ({ deskId, email, password }, thunkAPI) => {
     try {
-      const response: any = await AuthService.register(username, email, password);
+      const response: any = await AuthService.register(deskId, email, password);
       thunkAPI.dispatch(setMessage(response.data.message));
       return response.data;
     } catch (error: any) {
@@ -38,9 +38,9 @@ export const login = createAsyncThunk<typeof user,formData >(
   //@ts-ignore
  
   //@ts-ignore
-  async ({ username, password }, thunkAPI) => {
+  async ({ deskId, password }, thunkAPI) => {
     try {
-      const data = await AuthService.login(username, password);
+      const data = await AuthService.login(deskId, password);
       return { user: data };
     } catch (error: any) {
       const message = (error.response &&

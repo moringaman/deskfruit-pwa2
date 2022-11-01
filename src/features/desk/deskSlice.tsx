@@ -6,8 +6,7 @@ import {
 import { RootState } from '../../app/store'
 import axios from 'axios'
 import _ from 'lodash'
-// import { fetchDesk } from './deskApi';
-
+import { API_BASE_URL } from '../../config';
 
 export interface User {
   id: number
@@ -53,7 +52,7 @@ export const getDeskAsync = createAsyncThunk(
       console.log("calling async funk ", id)
 
       //const response = await fetchDesk(id);
-      const response = await axios.get(`https://3001-moringaman-deskfruitpwa-qmx85bfme7z.ws-eu72.gitpod.io/desks/${id}`)
+      const response = await axios.get(`${API_BASE_URL}/desks/${id}`)
       // The value we return becomes the `fulfilled` action payload
       console.log('deskasync', response.data)
       return { ...response.data }
@@ -67,7 +66,7 @@ export const getDeviceAsync = createAsyncThunk(
     if (!!id) {
       console.log("calling async funk ", id)
       try {
-        const response = await axios.get(`https://3001-moringaman-deskfruitpwa-qmx85bfme7z.ws-eu72.gitpod.io/desks/devices/${id}`)
+        const response = await axios.get(`${API_BASE_URL}/desks/devices/${id}`)
         if (_.isEmpty(response)) {
           throw new Error('device not found')
         }
@@ -96,6 +95,9 @@ const deskSlice = createSlice({
         expression: '* * * * *',
         active: false
       } as User)
+    },
+    deskCleared: (state) => {
+      state.desk = initialState.desk
     }
     // todoToggled:(state, action:PayloadAction<number>) => {
     //   const todo = state.data.find(todo => todo.id === action.payload)
@@ -134,5 +136,5 @@ const deskSlice = createSlice({
 export const desk = (state: RootState) => state.desk
 export const status = (state: RootState) => state.desk.status
 export const device = (state: RootState) => state.desk.device
-export const { deskAdded, deskUserAdded } = deskSlice.actions
+export const { deskAdded, deskUserAdded, deskCleared } = deskSlice.actions
 export default deskSlice.reducer

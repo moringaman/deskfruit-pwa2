@@ -8,7 +8,7 @@ export const useAppSelector: TypedUseSelectorHook<RootState> = useSelector;
 
 export const useAuthRedirect = () => {
     const authState = useAppSelector(auth)
-    const [loggedId, setLoggedIn] = useState(authState.isLoggedIn)
+    const [loggedIn, setLoggedIn] = useState(authState.isLoggedIn)
 
 
     useEffect(() => {
@@ -21,6 +21,6 @@ export const useAuthRedirect = () => {
 
 
     return {
-       loggedId,
+       loggedIn
     }
 }
