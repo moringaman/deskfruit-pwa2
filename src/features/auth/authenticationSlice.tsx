@@ -3,6 +3,7 @@ import { setMessage } from "../messages/messageSlice";
 
 import { RootState } from '../../app/store'
 import AuthService from "../../services/auth.service";
+import { deskAdded } from '../desk/deskSlice'
   //@ts-ignore
 
 const user = JSON.parse(localStorage.getItem("user"));
@@ -20,6 +21,7 @@ export const register = createAsyncThunk<typeof user,formData >(
     try {
       const response: any = await AuthService.register(deskId, email, password);
       thunkAPI.dispatch(setMessage(response.data.message));
+      thunkAPI.dispatch(deskAdded(response.data))
       return response.data;
     } catch (error: any) {
       const message = (error.response &&
@@ -40,6 +42,7 @@ export const login = createAsyncThunk<typeof user,formData >(
   //@ts-ignore
   async ({ deskId, password }, thunkAPI) => {
     try {
+      setMessage("Logging in")
       const data = await AuthService.login(deskId, password);
       return { user: data };
     } catch (error: any) {

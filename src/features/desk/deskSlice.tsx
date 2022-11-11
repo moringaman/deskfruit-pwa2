@@ -45,6 +45,8 @@ const initialState = {
   }
 }
 
+
+
 export const getDeskAsync = createAsyncThunk(
   'desk/fetchDesk',
   async (id: string) => {

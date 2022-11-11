@@ -13,6 +13,7 @@ module.exports = {
     },
     colors: {
       red: colors.red,
+      orange: colors.orange,
       yellow: colors.amber,
       black: colors.black,
       white: colors.white,
@@ -25,7 +26,31 @@ module.exports = {
     extend: {
       backgroundImage: theme => ({
            'hero-pattern': "url('/public/background.png')",
-        })
+        }),
+        keyframes: {
+          'swipe-up': {
+            '0%': {
+              transform: 'translateY(0)'
+            }
+          },
+          'swipe-down': {
+            '0%': {
+              transform: 'translateY(0)'
+            },
+            '50%': {
+              transform: 'translateY(222px)',
+              // opacity: "0"
+            },
+             '100%': {
+              transform: 'translateY(0)'
+            }
+          }
+
+        },
+        animation: {
+            'swipe-down': 'swipe-down 2.5s ease-in-out infinite',
+            'swipe-up': 'swipe-up 2.5s ease-out',
+        }
     },
   },
   plugins: [],

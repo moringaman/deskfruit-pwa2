@@ -77,7 +77,8 @@
   "react-dotenv": {
     "whitelist": [
       "WDS_SOCKET_PORT",
-      "GITPOD_WORKSPACE_ID"
+      "GITPOD_WORKSPACE_ID",
+      "GITPOD_WORKSPACE_CLUSTER_HOST"
     ]
   }
 }

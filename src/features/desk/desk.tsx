@@ -17,7 +17,6 @@ import ScanDesk from '../../components/ScanDesk'
 
 
 const IDesk = () => {
-  const navigate = useNavigate()
   const deskState = useAppSelector(desk)
   const dispatch = useAppDispatch()
   const [scanDesk, setScanDesk] = useState(false)
@@ -51,8 +50,10 @@ const IDesk = () => {
 
   // const addDesk = () => {
   //   const newDesk:Desk = {
-  //     id: 'euidhkadksau001',
+  //     id: '',
+  //     deskId: 'euidhkadksau001',
   //     name: 'super-desk-0001',
+  //     password: '',
   //     authenticated: false,
   //     users: [],
   //     position: 'down',
@@ -90,7 +91,7 @@ const IDesk = () => {
   }
 
   return (
-    <div className="container mx-auto">
+    <div className="container mx-auto py-10">
       { !data.hasOwnProperty('text') &&//|| !validCode &&
       <>
         <button 
@@ -98,18 +99,16 @@ const IDesk = () => {
           onClick={() => {
             setScanDesk(!scanDesk)
           }}
-            className="group relative mx-auto flex justify-center text-blue-700 border-2 border border-blue-700 hover:bg-blue-700 hover:text-white focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-full text-sm p-8 text-center items-center dark:border-blue-500 dark:text-blue-500 dark:hover:text-white dark:focus:ring-blue-800"
+            className="group bg-white mx-auto flex justify-center text-blue-700 border-4 border border-orange  hover:text-white focus:outline-none font-medium rounded-full text-sm p-8 text-center items-center dark:border-blue-500 dark:text-blue-500 dark:hover:text-white dark:focus:ring-blue-800"
             >
-            <Camera size="40"/>
+            <Camera color="orange" size="40"/>
       </button>
+      <p className="w-52 mx-auto flex justify-center text-xl text-center mt-5">Please press the camera button to scan the qrcode on your desk</p>
       </>
       }
      
       {activateScan() && 
-        <>
-          <p>Scan the Qr Code on your desk to begin</p>
           <ScanDesk successHandle={handleScan} errorHandle={handleError} />
-        </>
       }
       {/* {deskState?.desk?.password && */}
       {
