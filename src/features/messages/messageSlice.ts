@@ -1,4 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { RootState } from '../../app/store'
 
 const initialState = {};
 
@@ -19,3 +20,4 @@ const { reducer, actions } = messageSlice;
 
 export const { setMessage, clearMessage } = actions
 export default reducer;
+export const messages = (state: RootState) => state.messages

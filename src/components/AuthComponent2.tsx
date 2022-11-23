@@ -14,11 +14,11 @@ const AuthComponent2 = (props: any) => {
 
   const deskState = useAppSelector(desk)
   const device = deskState.device
-  const deskId = deskState.desk.deskId
+  // const deskId = deskState.desk.deskId
   const deviceExists = device.id !== ""
   const deviceOnline = device.online === true
   const deskFound = !_.isEmpty(deskState.desk)
-
+  const [statusType, setStatusType ] = useState("string")
   const action = deskFound ? 'login' : 'register'
 
   const [formData, setFormData] = useState({ id: scanned, email: '', password: '' })
@@ -66,6 +66,16 @@ const AuthComponent2 = (props: any) => {
       [key]: e.target.value//updateKey //e.target.value
     })
   }
+
+  useEffect(() => {
+    try {
+      JSON.parse(status)
+      setStatusType("json")
+    console.log("status ", JSON.parse(status))
+    }catch(err) {
+      setStatusType("string")
+    }
+  }, [status])
 
   useEffect(() => {
     console.log(formData)
@@ -128,10 +138,15 @@ const AuthComponent2 = (props: any) => {
                     required
                     className={`${passwordValid ? styles.valid : styles.invalid} w-full px-3 py-2 placeholder-gray-300 text-gray-500 border border-gray-300 rounded-md  focus:outline-none focus:ring focus:ring-indigo-100 focus:border-indigo-300`}
                   />
+                  {(statusType === "json" && JSON.parse(status).message === "Forbidden") && 
+                  <p className="text-red-400">
+                    Incorrect Password provided
+                  </p>
+                  }
                 </div>
                 <div className="mb-6">
                   <button
-                    disabled={!device || status === "pending"}
+                    disabled={status === "pending"}
                     type="submit"
                     className="inline-flex items-center justify-center w-full px-2 py-4 text-white bg-black rounded-md  focus:bg-indigo-600 focus:outline-none">
                     {status === 'pending' &&

@@ -24,3 +24,12 @@ export const useAuthRedirect = () => {
        loggedIn
     }
 }
+
+export const useLocalStorage = (item:string) => {
+    try {
+        const result: any = localStorage.getItem(item)
+        if(result) return JSON.parse(result)
+    }catch (err) {
+        return {}
+    }
+}

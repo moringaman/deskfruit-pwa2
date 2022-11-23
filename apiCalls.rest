@@ -1,1 +1,19 @@
-Get http://localhost:3001/desks/e00fce68a7754c1f1611d9f5
+# Get http://localhost:3001/desks/e00fce68a7754c1f1611d9f5
+
+# Get http://localhost:3001/desks/devices/e00fce68a7754c1f1611d9f5
+
+Patch http://localhost:3001/desks/e00fce68a7754c1f1611d9f5
+content-type: application/json
+
+{
+    "currentUser": "6283e958aae91c1670edf7e9",
+    "enabled": "6283e958aae91c1670edf7e9"
+}
+
+
+
+
+
+
+
+
