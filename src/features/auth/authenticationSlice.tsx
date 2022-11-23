@@ -42,8 +42,9 @@ export const login = createAsyncThunk<typeof user,formData >(
   //@ts-ignore
   async ({ deskId, password }, thunkAPI) => {
     try {
-      setMessage("Logging in")
+      thunkAPI.dispatch(setMessage("Logging In"))
       const data = await AuthService.login(deskId, password);
+      data && thunkAPI.dispatch(setMessage("Logged In"))
       return { user: data };
     } catch (error: any) {
       const message = (error.response &&

@@ -1,61 +1,81 @@
 
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
-import { useAuthRedirect, useAppDispatch } from '../app/hooks'
+import { useAuthRedirect } from '../app/hooks'
 import { Navigate } from 'react-router-dom'
-import { logout } from '../features/auth/authenticationSlice'
-
 import {
   // deskAdded,
-  getDeskAsync,
-  getDeviceAsync,
-  desk, 
-  deskCleared,
+  desk,
   User
   // Desk,
 } from '../features/desk/deskSlice'
-import { useEffect } from 'react'
-import { Plus } from 'react-feather'
+import UserCard from '../components/UserCard'
+import { useAppDispatch } from '../app/hooks'
+import { updateEnabledUser, updateDeskAsync } from '../features/desk/deskSlice'
+
 const ProfilePage = () => {
 
-  useEffect(() => {
-    const userInfo: any = localStorage.getItem("user")
-    console.log(userInfo)
-    const { deskId } = JSON.parse(userInfo);
-    dispatch(getDeviceAsync(deskId))
-    dispatch(getDeskAsync(deskId))
-  }, [])
-
   const deskState = useSelector(desk)
-
-  const [ Users, setUsers ] = useState<User[] | undefined>(deskState?.desk.users)
-
-  const dispatch = useAppDispatch()
+  const { deskId, enabled, currentUser } = deskState.desk
+  const [users, setUsers] = useState<User[] | undefined>(deskState?.desk.users)
   const { loggedIn } = useAuthRedirect()
-console.log('Logged in', loggedIn)
+  const dispatch = useAppDispatch()
+
+  const enableUser = (e:any, id: string) => {
+    console.log("Event ?", e)
+    e.stopPropagation()
+    if (id === '00000000000') return
+    if (id === enabled) {
+      dispatch(updateEnabledUser({ id: '0', deskId }))
+      return
+    }
+    dispatch(updateEnabledUser({ id, deskId }))
+  }
+
+  const selectCurrentUser = (e:any, id: string):void => {
+    e.stopPropagation()
+    console.log("updating current user ")
+    dispatch(updateDeskAsync({update:{ currentUser: id }, deskId}))
+  }
+
+  const UserList = () => {
+    console.log("users in userlist ", users)
+    return (
+      <>
+        {users && users.map((item, i) => (
+          <UserCard
+            currentUser={currentUser}
+            users={users}
+            loading={deskState.status === 'loading'}
+            user={item}
+            selected={deskState?.desk?.enabled === item._id}
+            handleChange={enableUser}
+            handleClick={selectCurrentUser}
+            key={i} />
+        ))
+        }
+      </>
+    )
+  }
+
+  useEffect(() => {
+    setUsers(deskState?.desk.users)
+  }, [deskState])
+
+  console.log('Logged in', loggedIn)
+  console.log('Users', users)
+  console.log('Status', deskState.status)
   return (
     <>
       {!loggedIn &&
         <Navigate to="/" replace={true} />
       }
-      <div className="flex w-full h-60 justify-start overflow-scroll mt-10 pl-20">
-        {Users && Users.length < 1 && <div className="h-40 mx-8 rounded-2xl min-w-[180px] border-white border-4 border-dashed flex justify-center items-center drop-shadow-xl"><Plus color="orange" size={68}/></div>}
-        <div className="h-40 mx-8 rounded-2xl min-w-[180px] bg-white opacity-75 hover:opacity-100 hover:border-orange-300 hover:border-4 flex drop-shadow-xl">slide</div>
-        <div className="h-40 mx-8 rounded-2xl min-w-[180px] bg-white opacity-75 hover:opacity-100 hover:border-orange-300 hover:border-4 flex drop-shadow-xl">slide</div>
+      <h1 className="text-2xl font-bold mx-10 mt-6 text-white">Desk users</h1>
+      <div className="flex w-full h-52 justify-start overflow-scroll mt-8 pl-20">
+        {users &&
+          <UserList />
+        }
       </div>
-      {/* <div className="h-72 min-w-100 bg-white/[0.15] border-t-4 border-b-4 border-orange-300 -mt-5">
-        stats */}
-      {/* </div> */}
-      <button
-        className="mx-auto flex mt-2 mb-5 justify-center rounded-md border border-transparent py-2 px-4 text-sm font-medium text-white bg-black hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
-        onClick={() => {
-          console.log("Sign Out")
-          dispatch(deskCleared())
-          dispatch(logout())
-        }}
-      >
-        Sign Out
-      </button>
     </>
   )
 }

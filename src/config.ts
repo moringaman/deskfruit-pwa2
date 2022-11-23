@@ -18,6 +18,10 @@ export const API_BASE_URL =
 
 // UI Config
 
-export const uiConfig = {
-    hasFooterMenu: [ 'profile' ]
+type UiConfig = {
+    hasFooterMenu: string[]
+}
+
+export const uiConfig:UiConfig = {
+    hasFooterMenu: [ 'profile', 'auth'] // List pages with footer menu here
 }
