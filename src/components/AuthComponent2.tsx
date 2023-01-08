@@ -85,7 +85,7 @@ const AuthComponent2 = (props: any) => {
     <>
       <div className="container mx-auto">
         {deviceExists &&
-          <div className="max-w-xl p-5 mx-auto my-2 bg-white rounded-md shadow-sm">
+          <div className="max-w-xl p-10 mx-auto my-5 bg-transparent rounded-md shadow-sm">
             <div className="text-center mb-6">
               <h1 className="my-3 text-3xl font-semibold text-gray-700">{!deskFound ? 'Register' : 'Sign In'}</h1>
               <p className={`${deviceOnline ? 'text-green-400' : 'text-red-400'} font-bold mb-2`}>
@@ -148,7 +148,7 @@ const AuthComponent2 = (props: any) => {
                   <button
                     disabled={status === "pending"}
                     type="submit"
-                    className="inline-flex items-center justify-center w-full px-2 py-4 text-white bg-black rounded-md  focus:bg-indigo-600 focus:outline-none">
+                    className="inline-flex items-center justify-center w-full px-2 py-4 text-white bg-cadet rounded-md  focus:bg-indigo-600 focus:outline-none">
                     {status === 'pending' &&
                       <svg className="w-5 h-5 mr-3 -ml-1 text-white animate-spin" xmlns="http://www.w3.org/2000/svg" fill="none"
                         viewBox="0 0 24 24">

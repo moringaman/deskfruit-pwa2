@@ -12,8 +12,13 @@ export interface User {
   id: number
   name: string
   avatarURI: string
+  image: string
+  team: string
+  standingHeight: number
+  seatedHeight: number
+  lastUsage: Date
   expression: string
-  active: boolean,
+  active: boolean
   _id: string
 }
 

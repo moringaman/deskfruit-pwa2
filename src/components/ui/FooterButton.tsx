@@ -1,11 +1,12 @@
-import React from 'react'
+import React, {memo} from 'react'
 
-export const FooterButton = ({callBack, children}:any) => {
+export const FooterButton = memo(({color, callBack, children}:any) => {
+  console.log("BUTTON COLOR  ", color)
   return (
   <>
-  <button onClick={callBack}>
+  <button className={`bg-goldCrayola2 rounded-full drop-shadow-xl p-4`} onClick={callBack}>
     {children}
   </button>
   </>
   )
-}
+})

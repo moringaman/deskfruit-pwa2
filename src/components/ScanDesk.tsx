@@ -10,7 +10,6 @@ const ScanDesk = (props: any) => {
    } = props
   const [showCamera, setShowCamera] = useState(true)
 
-
   const { ref } = useZxing({
     onResult(result:any) {
       setShowCamera(false)
@@ -21,7 +20,7 @@ const ScanDesk = (props: any) => {
   const QrReadComp = () => {
 //@ts-ignore
     return (
-      <div className="flex mx-auto justify-center w-64 h-60 py-0 mt-6  bg-transparent">
+      <div className="flex mx-auto justify-center w-64 h-60 py-0 mt-3  bg-transparent">
        <div className="z-40 absolute h-12 bg-orange mx-auto my-0">
         <div className="absolute mx-3 mt-2 bg-red-400 h-1 w-56 animate-swipe-down"></div>
         <svg width="250" height="240" viewBox="0 0 244 243" fill="none" xmlns="http://www.w3.org/2000/svg">

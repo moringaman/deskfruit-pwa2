@@ -7,7 +7,7 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background-color: #176CBF !important;
+  background-color: #7B9697 #e7b062!important;
   color: white;
   /* background-image: url('../public/background.png') */
 }
@@ -15,4 +15,17 @@ body {
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
+}
+
+.rs-toggle-presentation  {
+  background-color: #AAB4A8;
+}
+
+.rs-toggle-checked .rs-toggle-presentation {
+  background-color: #7B9697;
+}
+
+.rs-toggle-disabled .rs-toggle-presentation {
+  background-color: #AAB4A8;
+  opacity: 0.5;
 }
