@@ -12,7 +12,7 @@ export default function Layout() {
     return (
         <div className="overflow-y-hidden max-h-screen">
             <div id="header" className="p-10 bg-green flex">
-                <div className="w-72 py-2 pl-16 flex fixed absolute -left-20 top-5 items-center">
+                <div className="w-72 py-2 pl-16 flex fixed absolute -left-20 top-3 items-center">
                     <h1 className="ml-8
                 text-honeydew text-xl">
                         DESKFRUIT
@@ -21,7 +21,7 @@ export default function Layout() {
                 </div>
             </div>
             { showNewUserButton &&
-            <button className="w-28 h-8 rounded-full absolute bg-goldCrayola drop-shadow-lg right-4 top-15 flex items-center justify-center">
+            <button className="w-28 h-8 rounded-full absolute bg-goldCrayola drop-shadow-lg right-4 top-4 flex items-center justify-center">
                 <p className="text-nickel text-xs font-bold mx-2">
                 ADD USER 
                     </p><Plus size={20} color="white"/>
