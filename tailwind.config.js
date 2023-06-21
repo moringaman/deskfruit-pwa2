@@ -57,9 +57,9 @@ module.exports = {
       },
       backgroundImage: theme => ({
            'hero-pattern': "url('/public/desk-schematic.png')",
-           'gradient-top-sandy': 'linear-gradient(180deg, #FDE9B7 31.51%, #E8BD80 79.82%)',
+           'gradient-top-sandy': 'linear-gradient(145deg, #FDE9B7 31.51%, #E8BD80 79.82%)',
            'gradient-top-green': 'linear-gradient(180deg, #7B9697 0%, #53696A 100%)',
-           'gradient-top-gold': 'linear-gradient(180deg, #E8BD80 30%, #E0972F 100%)',
+           'gradient-top-gold': 'linear-gradient(45deg, #E8BD80 30%, #E0972F 100%)',
            'gradient-top-teal': 'linear-gradient(180deg, #D8F3E5 39.87%, #C3F3E6 100%)',
            'gradient-top': 'linear-gradient(0deg, #AAB4A8ff, #E8BD80ff, #7A7871ff, #586669ff, #B59370ff, #889D9Bff, #7E9493ff, #788A88ff, #FBF1CDff, #D8F3E5ff)',
         'gradient-right': 'linear-gradient(90deg, #AAB4A8ff, #E8BD80ff, #7A7871ff, #586669ff, #B59370ff, #889D9Bff, #7E9493ff, #788A88ff, #FBF1CDff, #D8F3E5ff)',

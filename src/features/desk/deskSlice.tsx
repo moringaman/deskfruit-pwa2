@@ -16,7 +16,7 @@ export interface User {
   team: string
   standingHeight: number
   seatedHeight: number
-  lastUsage: Date
+  lastUsage: Date | string
   expression: string
   active: boolean
   _id: string
@@ -94,11 +94,11 @@ export const getDeviceAsync = createAsyncThunk(
 export const updateEnabledUser = createAsyncThunk(
   'desk/updateEnabled',
   async (data: any) => {
-    const { id, deskId } = data
+    const { id, deskId, users } = data
       try {
         const response = await axios.patch(
           `${API_BASE_URL}/desks/${deskId}`,
-          { enabled: id}
+          { enabled: id, users }
         )
         return {...response.data}
       } catch (err) {

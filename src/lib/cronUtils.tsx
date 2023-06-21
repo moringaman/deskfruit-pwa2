@@ -6,7 +6,7 @@ const cronLibrary = {
  cronStatement: (chosen: string[], frequency:number, from:string, to:string):string => {
     const times = `${from}-${to}` //?
     
-     const cronDays = chosen.map((el:any) => el = days.indexOf(el)).filter((el:any) => el != '-1') 
+     const cronDays = chosen.map((el:any) => el = days.indexOf(el)).filter((el:any) => el !== '-1') 
 
     return `'*/${frequency} ${times} * * ${cronDays.toString()}'`
 },
@@ -21,6 +21,7 @@ objectFromCron: (schedule:string) => {
     const frequency = schedule.slice(3, schedule.indexOf(' ')) //?
     const from = schedule.slice(schedule.indexOf(' '), schedule.indexOf('-'))//?
     const to = schedule.slice(schedule.indexOf('-') +1, schedule.indexOf('*', 2 )) 
+    console.log("TTOOOOO " , schedule, to, from,)
      //?
     return {
         days: daysPicked,

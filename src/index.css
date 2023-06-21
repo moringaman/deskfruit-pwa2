@@ -29,3 +29,82 @@ code {
   background-color: #AAB4A8;
   opacity: 0.5;
 }
+
+.rs-calendar-panel.rs-calendar-compact .rs-calendar-table-row:not(.rs-calendar-table-header-row) .rs-calendar-table-cell-content {
+  height: 25px;
+  /* width: 0px; */
+}
+
+.rs-calendar-table-cell-content {
+  border-radius: 6px;
+  cursor: pointer;
+  display: inline-block;
+  font-size: 12px;
+  line-height: 1.42857143;
+  padding: 2px;
+}
+
+.rs-calendar-panel .rs-calendar-table-header-row .rs-calendar-table-cell-content {
+  padding-bottom: 1px;
+  padding-top: 1px;
+}
+
+.rs-btn-sm {
+  font-size: 12px;
+  line-height: 20px;
+  padding: 5px 5px;
+}
+
+.rs-calendar-table-cell-day {
+  color: #586669;
+}
+
+.rs-calendar-panel .rs-calendar-table-cell-is-today .rs-calendar-table-cell-day {
+  background-color: #B59370;
+  background-color: #B59370;
+  border-radius: 50%;
+  color: #fff;
+  height: 20px;
+  margin-left: auto;
+  margin-right: auto;
+  transform: translateY(-2px);
+  width: 20px;
+  padding-top: 2px;
+}
+
+.rs-badge-content, .rs-badge-independent {
+  background-color: #FBF1CD;
+  position: absolute;
+  transform: translate(-3px, -2px);
+}
+
+.btn.day {
+  width: 40px;
+  height: 40px;
+  padding: 10px;
+  margin: 4px;
+  /* border: 1px solid #ffffff; */
+  border-radius: 5px;
+  box-shadow: 4px 4px #586669;
+  background-color: #586669;
+}
+
+.btn.day.selected {
+  background-color: #e7b062;
+}
+
+.Select-menu-outer {
+  max-height: 100px;
+  }
+  
+  .Select-menu {
+  max-height: 108px;
+  }
+
+  #start_label, #end_label {
+    position: absolute;
+    transform: translate(30px, 2px);
+    color: gray;
+    z-index: 1000;
+    font-size: 12px;
+  }

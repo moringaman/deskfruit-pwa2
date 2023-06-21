@@ -10,11 +10,12 @@ import moment from 'moment'
     <div className="flex flex-col items-center py-10">
         { users && users.length < 1 && <div className="h-[175px] mx-8 rounded-2xl min-w-[180px] border-white border-4 border-dashed flex justify-center items-center drop-shadow-xl"><Plus color="orange" size={68}/></div> }
         <div 
-        className={` overflow-visible h-[120px] mx-6 pb-14 rounded-2xl min-w-[150px] bg-gradient-top-teal opacity-75 hover:opacity-100 flex flex-col justify-center items-center drop-shadow-xl p-2 ${currentUser === user._id ? "opacity-100 border-1 border-white": null}`}
+        className={` overflow-visible min-h-[120px] max-h-[120px] mx-6 pb-10 rounded-2xl min-w-[150px] bg-gradient-top-teal opacity-75 hover:opacity-100 flex flex-col justify-center items-center drop-shadow-xl p-1 ${currentUser === user._id ? "opacity-100 border-1 border-white": null}`}
         onClick={(e) => handleClick(e, user._id)}
         >
           <p className="text-cadet font-bold ml-2">{user.name}</p>
-          <p className="text-cadet text-xs">Active: {moment(user.lastUsage).fromNow()}</p>
+          <p className="text-cadet text-xs -mb-1">Last Active</p>
+          <p className="text-cadet text-xs">{moment(user.lastUsage).fromNow()}</p>
           <img className="rounded-full max-w-2 max-h-16 absolute -left-4 -top-8 drop-shadow-xl" src={user.image} alt="Avatar"/>
           </div>
           <Toggle 

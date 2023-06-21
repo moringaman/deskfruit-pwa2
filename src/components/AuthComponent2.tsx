@@ -91,7 +91,7 @@ const AuthComponent2 = (props: any) => {
               <p className={`${deviceOnline ? 'text-green-400' : 'text-red-400'} font-bold mb-2`}>
                 {deviceExists && deviceOnline ? 'Your desk is currently online' : 'Your desk appears to be offline please switch it on'}
               </p>
-              <p className="text-gray-400">{deskFound ? 'Enter Your Password to Sign In' : 'Enter your Email & Password to Register your new desk'}</p>
+              <p className="text-white text-lg font-bold mt-5">{deskFound ? 'Enter Your Password to Sign In' : 'Enter your Email & Password to Register your new desk'}</p>
             </div>
             <div>
               <form onSubmit={(e) => handleSubmit(e)}>
@@ -106,7 +106,7 @@ const AuthComponent2 = (props: any) => {
                     placeholder="Desk Id"
                     required
                     disabled
-                    className="w-full px-3 py-2 placeholder-gray-300 border border-gray-300 text-gray-400 rounded-md  focus:outline-none focus:ring focus:ring-indigo-100 focus:border-indigo-300"
+                    className="w-full px-3 py-2 placeholder-white border-gray-300 text-white rounded-md  focus:outline-none focus:ring focus:ring-indigo-100 focus:border-indigo-300"
                   />
                 </div>
                 {
