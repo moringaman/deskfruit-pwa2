@@ -83,19 +83,19 @@ const AuthComponent2 = (props: any) => {
 
   return (
     <>
-      <div className="container mx-auto">
+      <div className="container mx-auto hero-pattern bg-transparent">
         {deviceExists &&
           <div className="max-w-xl p-10 mx-auto my-5 bg-transparent rounded-md shadow-sm">
             <div className="text-center mb-6">
               <h1 className="my-3 text-3xl font-semibold text-gray-700">{!deskFound ? 'Register' : 'Sign In'}</h1>
-              <p className={`${deviceOnline ? 'text-green-400' : 'text-red-400'} font-bold mb-2`}>
+              <p className={`${deviceOnline ? 'text-gray' : 'text-red'} font-bold mb-2`}>
                 {deviceExists && deviceOnline ? 'Your desk is currently online' : 'Your desk appears to be offline please switch it on'}
               </p>
-              <p className="text-white text-lg font-bold mt-5">{deskFound ? 'Enter Your Password to Sign In' : 'Enter your Email & Password to Register your new desk'}</p>
+              <p className="text-white text-lg font-medium mt-5 align-center w-[60%] mx-auto">{deskFound ? 'Enter Your Password to Sign In' : 'Enter your Email & Password to Register your new desk'}</p>
             </div>
             <div>
               <form onSubmit={(e) => handleSubmit(e)}>
-                <div className="mb-6">
+                <div className="mb-3">
                   <label htmlFor="name" className="block mb-2 text-sm text-gray-600"
                   >Desk Id</label
                   >
@@ -111,10 +111,9 @@ const AuthComponent2 = (props: any) => {
                 </div>
                 {
                   !deskFound &&
-                  <div className="mb-6">
-                    <label htmlFor="email" className="block mb-2 text-sm text-gray-600"
-                    >Email Address</label
-                    >
+                  <div className="mb-3">
+                    <label htmlFor="email" className="block mb-3 text-sm text-gray-600"
+                    >Email Address</label>
                     <input
                       onChange={(e) => handleInput(e)}
                       defaultValue={formData.email}
@@ -122,7 +121,7 @@ const AuthComponent2 = (props: any) => {
                       name="email"
                       placeholder="you@email.com"
                       required
-                      className="w-full px-3 py-2 placeholder-gray-300 border border-gray-300 rounded-md  focus:outline-none focus:ring"
+                      className="w-full px-3 py-2 placeholder-gray-300 border border-gray-300 rounded-md  focus:outline-none focus:ring mt-1"
                     />
                   </div>
                 }
@@ -136,7 +135,7 @@ const AuthComponent2 = (props: any) => {
                     name="password"
                     placeholder="Password"
                     required
-                    className={`${passwordValid ? styles.valid : styles.invalid} w-full px-3 py-2 placeholder-gray-300 text-gray-500 border border-gray-300 rounded-md  focus:outline-none focus:ring focus:ring-indigo-100 focus:border-indigo-300`}
+                    className={`${passwordValid ? styles.valid : styles.invalid} w-full px-3 py-2 mt-2 placeholder-gray-300 text-gray-500 border border-gray-300 rounded-md  focus:outline-none focus:ring focus:ring-indigo-100 focus:border-indigo-300`}
                   />
                   {(statusType === "json" && JSON.parse(status).message === "Forbidden") && 
                   <p className="text-red-400">
@@ -148,7 +147,7 @@ const AuthComponent2 = (props: any) => {
                   <button
                     disabled={status === "pending"}
                     type="submit"
-                    className="inline-flex items-center justify-center w-full px-2 py-4 text-white bg-cadet rounded-md  focus:bg-indigo-600 focus:outline-none">
+                    className="inline-flex items-center justify-center w-full px-2 py-4 text-orange bg-transparent rounded-md  focus:bg-indigo-600 focus:outline-none border-2 border-gray">
                     {status === 'pending' &&
                       <svg className="w-5 h-5 mr-3 -ml-1 text-white animate-spin" xmlns="http://www.w3.org/2000/svg" fill="none"
                         viewBox="0 0 24 24">

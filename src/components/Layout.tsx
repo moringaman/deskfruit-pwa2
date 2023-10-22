@@ -7,27 +7,27 @@ export default function Layout() {
 
     const location = useLocation()
 
-  const showNewUserButton = uiConfig.hasAddUserButton.includes(location.pathname.substring(1))
+    const showNewUserButton = uiConfig.hasAddUserButton.includes(location.pathname.substring(1))
+    const showHeader = uiConfig.hasHeader.includes(location.pathname.substring(1))
 
     return (
         <div className="overflow-y-hidden max-h-screen">
-            <div id="header" className="p-10 bg-green flex">
-                <div className="w-72 py-2 pl-16 flex fixed absolute -left-20 top-3 items-center">
-                    <h1 className="ml-8
-                text-honeydew text-xl">
-                        DESKFRUIT
-                    </h1>
-                    {/* <img className="ml-3" src="/logo_blue.png" width="40" /> */}
+            {showHeader &&
+                <div id="header" className="p-10 bg-transparent flex">
+                    <div className="ml-10 py-2 pl-16 flex fixed absolute -left-20 top-3 items-center">
+                        <img className="h-[40px]" src="logo_sm.svg" alt="X" />
+                    </div>
                 </div>
-            </div>
-            { showNewUserButton &&
-            <button className="w-28 h-8 rounded-full absolute bg-goldCrayola drop-shadow-lg right-4 top-4 flex items-center justify-center">
-                <p className="text-nickel text-xs font-bold mx-2">
-                ADD USER 
-                    </p><Plus size={20} color="white"/>
-            </button>
             }
-            <div id="main" className=" bg-gradient-top-green flex flex-col tablet:flex-row overflow-hidden">
+            {showNewUserButton &&
+                <div className="flex flex-row absolute top-[300px] right-6 items-center">
+                    <p className="text-xs w-2 mr-8 leading-tight">Add User</p>
+                    <button className="p-3 rounded-full bg-gray drop-shadow-lg flex items-center justify-center">
+                        <Plus size={20} color="black" />
+                    </button>
+                </div>
+            }
+            <div id="main" className=" bg-transparent flex flex-col tablet:flex-row overflow-hidden">
                 {/* <div className="p-4 bg-gray-300 flex hidden tablet:flex h-screen">
                     Sidebar
                 </div> */}

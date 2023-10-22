@@ -7,9 +7,10 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background-color: #7B9697 #e7b062!important;
+  background-color: #212427 !important;
   color: white;
-  /* background-image: url('../public/background.png') */
+  background-image: url('../public/background_new.png');
+  background-size: cover;
 }
 
 code {
@@ -18,15 +19,15 @@ code {
 }
 
 .rs-toggle-presentation  {
-  background-color: #AAB4A8;
+  background-color: #1AA620;
 }
 
 .rs-toggle-checked .rs-toggle-presentation {
-  background-color: #7B9697;
+  background-color: #1AA620;
 }
 
 .rs-toggle-disabled .rs-toggle-presentation {
-  background-color: #AAB4A8;
+  background-color: #000000;
   opacity: 0.5;
 }
 
@@ -90,7 +91,7 @@ code {
 }
 
 .btn.day.selected {
-  background-color: #e7b062;
+  background-color: #1AA620;
 }
 
 .Select-menu-outer {

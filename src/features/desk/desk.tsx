@@ -117,22 +117,25 @@ const IDesk = () => {
     <div className="container mx-auto py-10">
       {!data.hasOwnProperty('text') &&//|| !validCode &&
         <>
+        <div className="flex mb-16 px-10 mx-auto justify-center items-center">
+          <img src="/word_logo.png" alt="DESKFRUIT" />
+        </div>
           <button
             type="button"
             onClick={() => {
               setScanDesk(!scanDesk)
             }}
-            className="drop-shadow-xl group bg-gradient-top-gold mx-auto flex justify-center text-blue-700 hover:text-white focus:outline-none font-medium rounded-full text-sm p-8 text-center items-center dark:border-blue-500 dark:text-blue-500 dark:hover:text-white dark:focus:ring-blue-800"
+            className="border-4 border-gray drop-shadow-xl group bg-white mx-auto flex justify-center text-white hover:text-white focus:outline-none font-medium rounded-full text-sm p-8 text-center items-center dark:border-blue-500 dark:text-blue-500 dark:hover:text-white dark:focus:ring-blue-800"
           >
-            <Camera color="white" size="30" />
+            <Camera color="black" size="32" />
           </button>
           <div className={`mx-auto flex justify-center animate-bounce mt-4 ${scanDesk ? "invisible" : "null" }`}>
-            <ChevronsUp color="white" size={38}/>
+            <ChevronsUp color="white" size={42}/>
           </div>
           { !scanDesk ?
-          <p className="w-52 mx-auto flex justify-center text-lg text-honeydew text-center mt-1 leading-tight">{scanButtontext && !scanDesk && "Press the camera button to scan the qrcode on your desk"}</p> :
+          <p className="w-52 mx-auto flex justify-center text-lg text-gray text-center mt-1 leading-tight">{scanButtontext && !scanDesk && "Press the camera button to scan the qrcode on your desk"}</p> :
           <> 
-          <p className="w-52 mx-auto flex justify-center text-lg text-center mt-1">{scanButtontext && "Point your Camera at the qrcode on your desk to login"}</p> 
+          <p className="w-52 mx-auto flex justify-center text-lg text-center text-gray text-lg mt-1">{scanButtontext && "Point your Camera at the qrcode on your desk to login"}</p> 
           <div className={`mx-auto flex justify-center animate-bounce mt-4 ${!scanDesk ? "invisible" : "null" }`}>
             <ChevronsDown color="white" size={48}/>
           </div>

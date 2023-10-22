@@ -9,7 +9,7 @@ export const API_BASE_URL =
     (process.env.NODE_ENV === 'development' && GITPOD_ID !== "") ? 
     `https://${API_PORT}-${GITPOD_ID}.${GITPOD_CLUSTER}` :
     (process.env.NODE_ENV === 'production') ?
-     `https//production_URL_here` : 
+     `https://deskfruit-api.vercel.app/` : 
     `http://localhost:${API_PORT}`
 
 // config cat setup vars here
@@ -21,9 +21,11 @@ export const API_BASE_URL =
 type UiConfig = {
     hasFooterMenu: string[]
     hasAddUserButton: string[]
+    hasHeader: string[]
 }
 
 export const uiConfig:UiConfig = {
     hasFooterMenu: [ 'profile', 'auth'], // List pages with footer menu here
-    hasAddUserButton: ['profile']
+    hasAddUserButton: ['profile'],
+    hasHeader: ['/', 'profile']
 }

@@ -52,15 +52,15 @@ export default function Footer() {
 
   const RenderedCode = () => {
     return (
-      <div id="footer" className="p-4 min-w-full h-14 fixed bottom-10 rounded-t-xl">
+      <div id="footer" className="p-4 min-w-full h-14 fixed bottom-6 rounded-t-xl">
         <div className="px-6 flex direction-column justify-between align-center">
           <FooterButton callBack={Logout} color="nickel">
             <LogOut size={20} color="white" />
           </FooterButton>
-          <User size={24} color="orange" />
-          <Settings size={24} color="orange" />
-          <ChevronUp size={24} color="orange" />
-          <ChevronDown size={24} color="orange" />
+          <User size={24} color="white" />
+          <Settings size={24} color="white" />
+          <ChevronUp size={24} color="white" />
+          <ChevronDown size={24} color="white" />
         </div>
       </div>
     )
@@ -69,7 +69,7 @@ export default function Footer() {
   const Copywrite = () => {
     return (
       <div className="w-full h-12 mx-auto flex justify-center fixed bottom-0 p-4 ">
-        <p className="text-white">Copywrite &copy; 2022 deskfruit Ltd</p>
+        <p className="text-gray text-xs">Copywrite &copy; 2022 deskfruit Ltd</p>
       </div>
     )
   }

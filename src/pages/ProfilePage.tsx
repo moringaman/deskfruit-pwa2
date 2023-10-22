@@ -10,19 +10,20 @@ import {
   // Desk,
 } from '../features/desk/deskSlice'
 import UserCard from '../components/UserCard'
-import ScheduleCalendar from '../components/Calendar'
 import Schedule from '../components/Scheduler'
 import { useAppDispatch } from '../app/hooks'
 import { updateEnabledUser, updateDeskAsync } from '../features/desk/deskSlice'
 import StandardButton from '../components/ui/StandardButton'
 import { getUserList } from '../lib/helpers'
+import moment from 'moment'
 
 const ProfilePage = () => {
 
   const deskState = useSelector(desk)
+  const { online } = deskState.device
   const { deskId, enabled, currentUser } = deskState.desk
   const [users, setUsers] = useState<User[] | undefined>(deskState?.desk.users)
-  const [ editMode, setEditMode ] = useState(false)
+  const [editMode, setEditMode] = useState(false)
   const { loggedIn } = useAuthRedirect()
   const dispatch = useAppDispatch()
 
@@ -34,40 +35,40 @@ const ProfilePage = () => {
     console.log("Event ?", e)
     e.stopPropagation()
 
-       if(users === undefined) return
-       const updated = getUserList(id, users, 'lastUsage', Date())
-       console.log("UPDATES ", updated)
-     if (id === '00000000000') return
-     if (id === enabled) {
-       dispatch(updateEnabledUser({ id: '0', deskId}))
-       return
-     }
-     dispatch(updateEnabledUser({ id, deskId, users: updated}))
+    if (users === undefined) return
+    const updated = getUserList(id, users, 'lastUsage', Date())
     console.log("UPDATES ", updated)
-  // }  
+    if (id === '00000000000') return
+    if (id === enabled) {
+      dispatch(updateEnabledUser({ id: '0', deskId }))
+      return
+    }
+    dispatch(updateEnabledUser({ id, deskId, users: updated }))
+    console.log("UPDATES ", updated)
+    // }  
   }
 
-  const saveExpression = (id: string, expression:string):void => {
-    if(users === undefined) return
+  const saveExpression = (id: string, expression: string): void => {
+    if (users === undefined) return
     const updated = getUserList(id, users, 'expression', expression)
     console.log("UPDATES ", updated)
-  if (id === '00000000000') return
-  if (id === enabled) {
-    // dispatch(updateEnabledUser({ id: '0', deskId}))
-  dispatch(updateDeskAsync({ update: {users: updated}, deskId,}))
-  setEditMode(false)
-    return
-  }
+    if (id === '00000000000') return
+    if (id === enabled) {
+      // dispatch(updateEnabledUser({ id: '0', deskId}))
+      dispatch(updateDeskAsync({ update: { users: updated }, deskId, }))
+      setEditMode(false)
+      return
+    }
 
- 
-// }  
+
+    // }  
   }
 
   const selectCurrentUser = (e: any, id: string): void => {
     e.stopPropagation()
     console.log("updating current user ", users)
 
- 
+
     dispatch(updateDeskAsync({ update: { currentUser: id }, deskId }))
   }
 
@@ -101,50 +102,71 @@ const ProfilePage = () => {
 
   console.log('Logged in', loggedIn)
   console.log('Users', users)
-  console.log('Status', deskState.status)
+  console.log('Status', deskState?.status, 'Online ', online)
   console.log("USER DATA", currentUserData)
   return (
     <>
       {!loggedIn &&
         <Navigate to="/" replace={true} />
       }
-      {/* <h1 className="text-2xl mx-10 text-white -mt-4 tracking-wide">USERS</h1> */}
-      <div className="flex w-full h-52 justify-start overflow-scroll -mt-1 pl-20">
+      <div className="flex-col absolute top-10 left-20 text-xs">
+        <div className="flex flex-row">
+          <p>Device Status: </p>
+          {online ?
+            <div className="flex flex-row items-center ml-2 text-gray">
+              <p>Online</p>
+              <div className="bg-green rounded-full h-3 w-3 ml-2"></div>
+            </div> :
+            <div className="flex flex-row items-center ml-2">
+              <p>Offline</p>
+              <div className="bg-red rounded-full h-3 w-3 ml-2"></div>
+            </div>
+          }
+        </div>
+        <div>
+          <p>Active User:</p>
+        </div>
+      </div>
+
+      <div className="h-[1px] w-full bg-green -translate-x-[40%] mt-5" ></div>
+      <div className="flex w-full h-52 justify-start overflow-scroll -mt-1 mb-6 pl-20">
         {users &&
           <UserList />
         }
       </div>
-      <div className=" max-w-[160px] h-[34px] translate-x-10 -translate-y-[30px]">
-        <p className="text-md font-medium">
-          DESK SETTINGS
-          </p>
-        </div>
       <div className="-translate-y-8">
-      <div className="flex h-auto p-2 w-100 mx-2">
-        { !editMode ?
-        <>
-        <div className="">
-  <StandardButton text='Edit Config' action={() => toggleMode()}/>
-  </div>
-  <div className='border-1 bg-gradient-top-sandy rounded-xl drop-shadow-xl mt-4  max-h-[235px] max-w-full m-r-2 overflow-hidden translate-y-40'>
-  {/* <div className="h-[130px] flex flex-row items-center content-around">
-    <p className="text-sm text-white flex-none">Seated Height:</p>
-    <p className="text-sm text-white flex-none"> {currentUserData && currentUserData?.seatedHeight}</p>
-  </div>
-  <p className="text-sm">Standing Height {current UserData && currentUserData?.standingHeight}</p> */}
-  
- {/* <ScheduleCalendar /> */}
-  
-</div>
-</>
-    : <><Schedule user={currentUserData} switchMode={toggleMode} 
-    saveExpression={saveExpression}
-    /></>    }
-      
+        <div className="flex h-auto p-2 w-100 mx-2 mt-20">
+          {!editMode ?
+            <>
+              <div className=" max-w-full h-[34px] px-6 -mt-4 flex flex-col leading-tight">
+                <p className="text-md font-medium mb-6">
+                  Desk Settings
+                </p>
+                <p className="text-sm font-medium">
+                  User:  <span className="font-light"> {currentUserData?.name}</span>
+                </p>
+                <p className="text-sm font-medium">
+                  Seated Height:  <span className="font-light"> {currentUserData?.seatedHeight} cm</span>
+                </p>
+                <p className="text-sm font-medium">
+                  Standing Height:  <span className="font-light"> {currentUserData?.standingHeight} cm</span>
+                </p>
+                <p className="text-sm font-medium">
+                  Last Active: <span className="font-light"> {moment(currentUserData?.lastUsage).fromNow()}</span>
+                </p>
+              </div>
+              <div className="absolute right-6 top-[180px]">
+                <StandardButton text='Edit Config' action={() => toggleMode()} />
+              </div>
+            </>
+            : <><Schedule user={currentUserData} switchMode={toggleMode}
+              saveExpression={saveExpression}
+            /></>}
+
+        </div>
+
       </div>
-      
-      </div>
-    
+
 
 
     </>
