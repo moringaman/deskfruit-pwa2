@@ -1,10 +1,13 @@
 // A mock function to mimic making an async request for data
 
+const BASE_API_URL = process.env.NODE_ENV === 'production' ? 'https://deskfruit-api.vercel.app' :
+'http://localhost:3001'
+
 export function fetchDesk(id:string) {
  return new Promise<any>((resolve,reject) => {
   try {
     console.log('fetching data...')
-    fetch(`http://localhost:3001/desks/${id}`)
+    fetch(`${BASE_API_URL}'/desks/'${id}`)
         .then(response => {
           console.log('date ', response)
           resolve(response)
