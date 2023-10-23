@@ -13,7 +13,7 @@ const register = (deskId:string, email:string, password:string) => {
   },
   {
     headers: {
-      'Content-Type': 'application/x-www-form-urlencoded'
+      'Content-Type': 'application/json'
     }
 });
 };
@@ -26,7 +26,7 @@ const login = (deskId:string, password:string) => {
     },
     {
       headers: {
-        'Content-Type': 'application/x-www-form-urlencoded'
+        'Content-Type': 'application/json'
       }
   })
     .then((response) => {
