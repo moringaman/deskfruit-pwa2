@@ -10,12 +10,8 @@ const register = (deskId:string, email:string, password:string) => {
     deskId,
     email,
     password,
-  },
-  {
-    headers: {
-      'Content-Type': 'application/json'
-    }
-});
+  }
+  );
 };
 
 const login = (deskId:string, password:string) => {
@@ -23,12 +19,8 @@ const login = (deskId:string, password:string) => {
     .post(API_BASE_URL + "/signin", {
       deskId,
       password,
-    },
-    {
-      headers: {
-        'Content-Type': 'application/json'
-      }
-  })
+    }
+  )
     .then((response) => {
       if (response.data.accessToken) {
         localStorage.setItem("user", JSON.stringify(response.data));
