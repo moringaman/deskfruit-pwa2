@@ -16,7 +16,7 @@ import {
 
 const Schedule = (props: any) => {
 
-    const { user, saveExpression } = props
+    const { user, saveExpression, setEditMode } = props
 
     const { objectFromCron, cronStatement } = cronUtils
     //TODO: Get cronStatement datafrom state
@@ -33,6 +33,8 @@ const Schedule = (props: any) => {
     const cronData = objectFromCron(expression)
 
     const { days, from, to, frequency } = cronData
+
+    console.log("DAAAAAAYAAA ", days)
     const [chosenDays, setChosenDays] = useState(days)
     const [hours, setHours] = useState({
         from: from,
@@ -56,7 +58,7 @@ const Schedule = (props: any) => {
     console.log("LAB ", label)
 
     const [interval, setInterval] = useState({ value: frequency, label: label[0].label })
-
+    const [edited, setEdited ] = useState<boolean>(false)
     const dayString = chosenDays.toString().split(",")
 
     const schedule = cronStatement(dayString, parseInt(interval.value), hours.from.trim(), hours.to.trim())
@@ -65,7 +67,9 @@ const Schedule = (props: any) => {
 
     //TODO: Populate state array of days based on button presses
 
-
+    useEffect(() => {
+            console.log("CHOSEN ____ ", chosenDays)
+    },[chosenDays])
 
     useEffect(() => {
         console.log("UPDATING EXP ", schedule)
@@ -82,6 +86,7 @@ const Schedule = (props: any) => {
             return
         }
         setChosenDays([...chosenDays, day])
+        setEdited(true)
     }
 
     // const selectStyles: StylesConfig = {
@@ -125,7 +130,7 @@ const Schedule = (props: any) => {
     };
 
     return (
-        <div className="schedule-container -mt-5 w-[95%] mx-auto mb-5">
+        <div className="schedule-container -mt-5 w-[95%] mx-auto mb-5 overflow-hidden">
             <div className="schedule-container_row mb-6">
                 <p className="font-semibold mb-4">Set Desk Schedule</p>
                 <p className="text-xs mb-4 text-gray">Pick days, times and frequency you would like
@@ -201,9 +206,13 @@ const Schedule = (props: any) => {
             {/* <div className="schedule-container_row">
                 <div className="btn" onClick={() => handleClick(cron)}>Save</div>
             </div> */}
-            <div className="mt-5">
-
-            <StandardButton text='SAVE' action={() => saveExpression(user._id, cron)} />
+            <div className="mt-5 flex flex-row">
+            { edited === false ? 
+            <StandardButton text='Back' action={() => setEditMode(false)} />
+                :
+            <StandardButton text='Save' type="success" action={() => saveExpression(user._id, cron)} />
+            }
+           
             </div>
         </div>
     )

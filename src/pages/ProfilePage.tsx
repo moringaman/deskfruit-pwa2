@@ -61,6 +61,7 @@ const ProfilePage = () => {
     }
 
 
+
     // }  
   }
 
@@ -160,7 +161,7 @@ const ProfilePage = () => {
               </div>
             </>
             : <><Schedule user={currentUserData} switchMode={toggleMode}
-              saveExpression={saveExpression}
+              saveExpression={saveExpression} setEditMode={setEditMode}
             /></>}
 
         </div>
