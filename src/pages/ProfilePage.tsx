@@ -53,15 +53,13 @@ const ProfilePage = () => {
     const updated = getUserList(id, users, 'expression', expression)
     console.log("UPDATES ", updated)
     if (id === '00000000000') return
-    if (id === enabled) {
+    //TODO: Check if enabled is same as currentUser
+    // if (id === enabled) {
       // dispatch(updateEnabledUser({ id: '0', deskId}))
       dispatch(updateDeskAsync({ update: { users: updated }, deskId, }))
       setEditMode(false)
       return
-    }
-
-
-
+    // }
     // }  
   }
 
@@ -84,8 +82,8 @@ const ProfilePage = () => {
             loading={deskState.status === 'loading'}
             user={item}
             selected={deskState?.desk?.enabled === item._id}
-            handleChange={enableUser}
-            handleClick={selectCurrentUser}
+            handleChange={!editMode ? enableUser : () => {}}
+            handleClick={!editMode ? selectCurrentUser : () => {}}
             key={i} />
         ))
         }

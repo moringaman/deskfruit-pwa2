@@ -83,6 +83,7 @@ const Schedule = (props: any) => {
         if (chosenDays.includes(day)) {
             const daysArray = chosenDays.filter(el => el !== day)
             setChosenDays(daysArray)
+            setEdited(true)
             return
         }
         setChosenDays([...chosenDays, day])
