@@ -52,7 +52,7 @@ export default function Footer() {
 
   const RenderedCode = () => {
     return (
-      <div id="footer" className="p-4 min-w-full h-14 fixed bottom-6 rounded-t-xl">
+      <div id="footer" className="p-4 min-w-full h-14 fixed bottom-0 rounded-t-xl">
         <div className="px-6 flex direction-column justify-between align-center">
           <FooterButton callBack={Logout} color="nickel">
             <LogOut size={20} color="white" />
