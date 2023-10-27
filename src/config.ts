@@ -9,7 +9,7 @@ export const API_BASE_URL =
     (process.env.NODE_ENV === 'development' && GITPOD_ID !== "") ? 
     `https://${API_PORT}-${GITPOD_ID}.${GITPOD_CLUSTER}` :
     (process.env.NODE_ENV === 'production') ?
-     `https://deskfruit-api.vercel.app` : 
+     `https://api.deskfruit.co.uk` : 
     `http://localhost:${API_PORT}`
 
 // config cat setup vars here
