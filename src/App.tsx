@@ -4,6 +4,7 @@ import { ConfigCatProvider } from "configcat-react"
 import Layout from './components/Layout'
 import { store } from './app/store';
 import { Provider } from 'react-redux';
+import { SkeletonTheme } from 'react-loading-skeleton';
 
 
 import './App.css';
@@ -19,6 +20,7 @@ function App() {
 
   return (
     <div id="container" className="flex flex-col">
+      <SkeletonTheme>
       <ConfigCatProvider sdkKey="3bjaCGNG2k6K57N_TxanTw/6-EeL5ikRUyVKddosnxmgQ">
         <Provider store={store}>
           <BrowserRouter>
@@ -35,6 +37,7 @@ function App() {
           </BrowserRouter>
         </Provider>
       </ConfigCatProvider>
+      </SkeletonTheme>
     </div>
   );
 }

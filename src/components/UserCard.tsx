@@ -1,6 +1,6 @@
 import Toggle from 'rsuite/Toggle'
 import { Plus } from 'react-feather'
-import moment from 'moment'
+
 
  const UserCard = (props:any) => {
     const { users, user, selected, handleChange, loading, currentUser, handleClick } = props
