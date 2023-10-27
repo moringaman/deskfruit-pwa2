@@ -207,7 +207,7 @@ const Schedule = (props: any) => {
             {/* <div className="schedule-container_row">
                 <div className="btn" onClick={() => handleClick(cron)}>Save</div>
             </div> */}
-            <div className="mt-5 flex flex-row">
+            <div className="mt-5 flex flex-row justify-end">
             { edited === false ? 
             <StandardButton text='Back' action={() => setEditMode(false)} />
                 :
