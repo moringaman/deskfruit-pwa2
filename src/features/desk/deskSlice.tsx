@@ -28,7 +28,8 @@ export interface Desk {
   id: string | undefined
   deskId: string | undefined
   name: string | undefined
-  status: 'idle' | 'loading' | 'failed',
+  status: 'idle' | 'loading' | 'failed'
+  userLoading: string | undefined
   password: string
   authenticated: boolean
   currentUser: string
@@ -46,7 +47,8 @@ const initialState = {
     password: '',
     authenticated: false,
     currentUser: undefined,
-    enabled: undefined
+    enabled: undefined,
+    userLoading: undefined
   },
   status: 'idle',
   device: {
@@ -166,14 +168,21 @@ const deskSlice = createSlice({
         state.desk = {...action.payload}
       })
       .addCase(updateEnabledUser.pending, (state) => {
-        state.status = 'loading';
+        //state.status = 'loading';
+        state.desk = {
+          ...state.desk,
+          userLoading: state.desk.currentUser, 
+        }
       })
       .addCase(updateEnabledUser.rejected, (state) => {
         state.status = 'idle';
       })
       .addCase(updateEnabledUser.fulfilled, (state, action) => {
         state.status = 'idle';
-        state.desk = {...action.payload}
+        state.desk = {
+          userLoading: undefined,
+          ...action.payload
+        }
       })
       .addCase(getDeskAsync.pending, (state) => {
         state.status = 'loading';

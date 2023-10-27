@@ -131,7 +131,7 @@ const Schedule = (props: any) => {
     };
 
     return (
-        <div className="schedule-container -mt-5 w-[95%] mx-auto mb-5 overflow-hidden">
+        <div className="schedule-container -mt-5 w-[95%] mx-auto mb-5 overflowx-hidden">
             <div className="schedule-container_row mb-6">
                 <p className="font-semibold mb-4">Set Desk Schedule</p>
                 <p className="text-xs mb-4 text-gray">Pick days, times and frequency you would like
@@ -195,6 +195,7 @@ const Schedule = (props: any) => {
                         value={interval}
                         onChange={(e: any) => {
                             console.log('Eventr ', e)
+                            setEdited(true)
                             const label = timeIntervals.find(el => el.label === e.value)
                             console.log('label ', label)
                             setInterval({

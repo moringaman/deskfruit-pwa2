@@ -1,8 +1,11 @@
 
-import { useEffect, useState, useMemo } from 'react'
+import { useState, useMemo } from 'react'
 import { useSelector } from 'react-redux'
 import { useAuthRedirect } from '../app/hooks'
 import { Navigate } from 'react-router-dom'
+import Skeleton from 'react-loading-skeleton'
+import 'react-loading-skeleton/dist/skeleton.css'
+
 import {
   // deskAdded,
   desk,
@@ -10,6 +13,7 @@ import {
   // Desk,
 } from '../features/desk/deskSlice'
 import UserCard from '../components/UserCard'
+import UserCardSkeleton from '../components/UserCardSkeleton'
 import Schedule from '../components/Scheduler'
 import { useAppDispatch } from '../app/hooks'
 import { updateEnabledUser, updateDeskAsync } from '../features/desk/deskSlice'
@@ -21,7 +25,8 @@ const ProfilePage = () => {
 
   const deskState = useSelector(desk)
   const { online } = deskState.device
-  const { deskId, enabled, currentUser } = deskState.desk
+  const { status } = deskState
+  const { deskId, enabled, currentUser, userLoading } = deskState.desk
   const [users, setUsers] = useState<User[] | undefined>(deskState?.desk.users)
   const [editMode, setEditMode] = useState(false)
   const { loggedIn } = useAuthRedirect()
@@ -72,14 +77,15 @@ const ProfilePage = () => {
   }
 
   const UserList = () => {
-    console.log("users in userlist ", users)
+    console.log("users in userlist ", users, userLoading)
     return (
+      
       <>
         {users && users.map((item, i) => (
           <UserCard
             currentUser={currentUser}
             users={users}
-            loading={deskState.status === 'loading'}
+            loading={userLoading === item._id}
             user={item}
             selected={deskState?.desk?.enabled === item._id}
             handleChange={!editMode ? enableUser : () => {}}
@@ -129,8 +135,9 @@ const ProfilePage = () => {
 
       <div className="h-[1px] w-full bg-green -translate-x-[40%] mt-5" ></div>
       <div className="flex w-full h-52 justify-start overflow-scroll -mt-1 mb-6 pl-20">
-        {users &&
+        {users && status !== 'loading' ?
           <UserList />
+          : <UserCardSkeleton cards={2}/>
         }
       </div>
       <div className="-translate-y-8">
@@ -142,16 +149,16 @@ const ProfilePage = () => {
                   Desk Settings
                 </p>
                 <p className="text-sm font-medium">
-                  User:  <span className="font-light"> {currentUserData?.name}</span>
+                  User:  <span className="font-light"> {currentUserData?.name || <Skeleton width={50}/>} </span>
                 </p>
                 <p className="text-sm font-medium">
-                  Seated Height:  <span className="font-light"> {currentUserData?.seatedHeight} cm</span>
+                  Seated Height:  <span className="font-light"> {currentUserData?.seatedHeight || <Skeleton width={50}/>}</span>
                 </p>
                 <p className="text-sm font-medium">
-                  Standing Height:  <span className="font-light"> {currentUserData?.standingHeight} cm</span>
+                  Standing Height:  <span className="font-light"> {currentUserData?.standingHeight || <Skeleton width={50}/>}</span>
                 </p>
                 <p className="text-sm font-medium">
-                  Last Active: <span className="font-light"> {moment(currentUserData?.lastUsage).fromNow()}</span>
+                  Last Active: <span className="font-light"> {moment(currentUserData?.lastUsage).fromNow() || <Skeleton width={50}/>}</span>
                 </p>
               </div>
               <div className="absolute right-6 top-[180px]">
