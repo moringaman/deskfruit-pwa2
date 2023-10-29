@@ -16,7 +16,7 @@ import {
 
 const Schedule = (props: any) => {
 
-    const { user, saveExpression, setEditMode } = props
+    const { user, saveExpression, setEditMode, loading } = props
 
     const { objectFromCron, cronStatement } = cronUtils
     //TODO: Get cronStatement datafrom state
@@ -212,7 +212,7 @@ const Schedule = (props: any) => {
             { edited === false ? 
             <StandardButton text='Back' action={() => setEditMode(false)} />
                 :
-            <StandardButton text='Save' type="success" action={() => saveExpression(user._id, cron)} />
+            <StandardButton text='Save' type="success" loading={loading} action={() => saveExpression(user._id, cron)} />
             }
            
             </div>
