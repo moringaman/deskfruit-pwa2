@@ -9,6 +9,7 @@ import 'react-loading-skeleton/dist/skeleton.css'
 import {
   // deskAdded,
   desk,
+  enabledUserData,
   User
   // Desk,
 } from '../features/desk/deskSlice'
@@ -21,9 +22,18 @@ import StandardButton from '../components/ui/StandardButton'
 import { getUserList } from '../lib/helpers'
 import moment from 'moment'
 
+const StatusSkeleton = () => {
+  return (
+    <div className="flex flex-row align-around">
+      <Skeleton  width={60}/><Skeleton width={50} className="ml-2"/><Skeleton className="ml-2" circle width={12} height={12} />
+    </div>
+  )
+}
+
 const ProfilePage = () => {
 
   const deskState = useSelector(desk)
+  const userData = useSelector(enabledUserData)
   const { online } = deskState.device
   const { status } = deskState
   const { deskId, enabled, currentUser, userLoading } = deskState.desk
@@ -33,8 +43,6 @@ const ProfilePage = () => {
   const dispatch = useAppDispatch()
 
   const currentUserData = users?.find(user => user._id === currentUser)
-
-
 
   const enableUser = (e: any, id: string) => {
     console.log("Event ?", e)
@@ -53,7 +61,7 @@ const ProfilePage = () => {
     // }  
   }
 
-  const saveExpression = (id: string, expression: string): void => {
+  const saveExpression = async(id: string, expression: string) => {
     if (users === undefined) return
     const updated = getUserList(id, users, 'expression', expression)
     console.log("UPDATES ", updated)
@@ -61,7 +69,7 @@ const ProfilePage = () => {
     //TODO: Check if enabled is same as currentUser
     // if (id === enabled) {
       // dispatch(updateEnabledUser({ id: '0', deskId}))
-      dispatch(updateDeskAsync({ update: { users: updated }, deskId, }))
+    await dispatch(updateDeskAsync({ update: { users: updated }, deskId, }))
       setEditMode(false)
       return
     // }
@@ -77,7 +85,7 @@ const ProfilePage = () => {
   }
 
   const UserList = () => {
-    console.log("users in userlist ", users, userLoading)
+    console.log("users in userlist ", users, userLoading, userData)
     return (
       
       <>
@@ -109,13 +117,14 @@ const ProfilePage = () => {
   console.log('Users', users)
   console.log('Status', deskState?.status, 'Online ', online)
   console.log("USER DATA", currentUserData)
+
   return (
     <>
       {!loggedIn &&
         <Navigate to="/" replace={true} />
       }
-      <div className="flex-col absolute top-10 left-20 text-xs">
-        <div className="flex flex-row">
+      <div className="flex-col absolute top-6 left-20 text-xs">
+        { online !== undefined ? <div className="flex flex-row">
           <p>Device Status: </p>
           {online ?
             <div className="flex flex-row items-center ml-2 text-gray">
@@ -127,15 +136,16 @@ const ProfilePage = () => {
               <div className="bg-red rounded-full h-3 w-3 ml-2"></div>
             </div>
           }
-        </div>
+        </div> : <StatusSkeleton/>}
         <div>
-          <p>Active User:</p>
+          <p>Active User: <span className="text-gray">{userData && userData?.name}
+            </span></p>
         </div>
       </div>
 
-      <div className="h-[1px] w-full bg-green -translate-x-[40%] mt-5" ></div>
+      <div className="h-[1px] w-full bg-green -translate-x-[40%] mt-0" ></div>
       <div className="flex w-full h-52 justify-start overflow-scroll -mt-1 mb-6 pl-20">
-        {users && status !== 'loading' ?
+        {currentUserData ?
           <UserList />
           : <UserCardSkeleton cards={2}/>
         }
@@ -149,23 +159,23 @@ const ProfilePage = () => {
                   Desk Settings
                 </p>
                 <p className="text-sm font-medium">
-                  User:  <span className="font-light"> {currentUserData?.name || <Skeleton width={50}/>} </span>
+                  {currentUserData && 'User:' } <span className="font-light"> {currentUserData?.name || <Skeleton width={150}/>} </span>
                 </p>
                 <p className="text-sm font-medium">
-                  Seated Height:  <span className="font-light"> {currentUserData?.seatedHeight || <Skeleton width={50}/>}</span>
+                {currentUserData && 'Seated Height:'}  <span className="font-light"> {currentUserData?.seatedHeight || <Skeleton width={150}/>}</span>
                 </p>
                 <p className="text-sm font-medium">
-                  Standing Height:  <span className="font-light"> {currentUserData?.standingHeight || <Skeleton width={50}/>}</span>
+                {currentUserData &&  'Standing Height:'}  <span className="font-light"> {currentUserData?.standingHeight || <Skeleton width={150}/>}</span>
                 </p>
                 <p className="text-sm font-medium">
-                  Last Active: <span className="font-light"> {moment(currentUserData?.lastUsage).fromNow() || <Skeleton width={50}/>}</span>
+                {currentUserData &&  'Last Active:'} <span className="font-light"> {moment(currentUserData?.lastUsage).fromNow() || <Skeleton width={150}/>}</span>
                 </p>
               </div>
               <div className="absolute right-6 top-[180px]">
                 <StandardButton text='Edit Config' action={() => toggleMode()} />
               </div>
             </>
-            : <><Schedule user={currentUserData} switchMode={toggleMode}
+            : <><Schedule loading={status === 'loading'} user={currentUserData} switchMode={toggleMode}
               saveExpression={saveExpression} setEditMode={setEditMode}
             /></>}
 

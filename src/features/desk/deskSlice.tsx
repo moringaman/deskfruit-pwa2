@@ -36,6 +36,11 @@ export interface Desk {
   enabled: string
 };
 
+export interface Device {
+  online: boolean | undefined
+  id: string | undefined
+}
+
 
 const initialState = {
   desk: {
@@ -53,7 +58,7 @@ const initialState = {
   status: 'idle',
   device: {
     id: undefined,
-    online: false,
+    online: undefined,
   }
 }
 
@@ -210,5 +215,9 @@ const deskSlice = createSlice({
 export const desk = (state: RootState) => state.desk
 export const status = (state: RootState) => state.desk.status
 export const device = (state: RootState) => state.desk.device
+export const enabledUserData = (state: RootState) => {
+  const enabled = state.desk.desk.enabled
+   return state.desk.desk.users.find(user => user['_id'] === enabled) || {name: 'None'} 
+}
 export const { deskAdded, deskUserAdded, deskCleared } = deskSlice.actions
 export default deskSlice.reducer

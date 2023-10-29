@@ -8,6 +8,7 @@ const UserCardSkeleton = (props: any) => {
             {Array(cards).fill(0).map(el => (
                 <div className="flex flex-col items-center max-w-[200px] min-w-[160px] max-h-[170px] p-6 mt-6 mx-4 border-2 border-gray rounded-xl">
                     <Skeleton circle width={90} height={90} />
+                    <Skeleton width={40} height={20} style={{borderRadius: '20px', marginTop: '20px'}}/>
                 </div>
             ))}
 

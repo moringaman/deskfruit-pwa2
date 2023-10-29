@@ -20,7 +20,7 @@ function App() {
 
   return (
     <div id="container" className="flex flex-col">
-      <SkeletonTheme>
+      <SkeletonTheme baseColor="#C4C4C4" highlightColor="#929495">
       <ConfigCatProvider sdkKey="3bjaCGNG2k6K57N_TxanTw/6-EeL5ikRUyVKddosnxmgQ">
         <Provider store={store}>
           <BrowserRouter>
