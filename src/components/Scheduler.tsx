@@ -100,10 +100,10 @@ const Schedule = (props: any) => {
         }),
         control: (provided: any) => ({
             ...provided,
-            marginLeft: 15,
-            maxHeight: 35,
-            minWidth: 100
-            //  minWidth: 110,
+            marginLeft: 10,
+            maxHeight: 25,
+            minWidth: 100,
+            maxWidth: 150,
         }),
         option: (provided: any) => ({
             ...provided,
@@ -111,12 +111,13 @@ const Schedule = (props: any) => {
             color: "black",
             backgroundColor: 'white',
             fontSize: 12,
+            //width: 100
         }),
         singleValue: (provided: any) => ({
             ...provided,
             color: '#114A82',
             fontWeight: 700,
-            fontSize: 14,
+            fontSize: 12,
             marginTop: 10,
             marginLeft: 10
         }),
@@ -134,13 +135,13 @@ const Schedule = (props: any) => {
         <div className="schedule-container -mt-5 w-[95%] mx-auto mb-5 overflowx-hidden">
             <div className="schedule-container_row mb-6">
                 <p className="font-semibold mb-4">Set Desk Schedule</p>
-                <p className="text-xs mb-4 text-gray">Pick days, times and frequency you would like
+                <p className="text-xs mb-3 text-gray">Pick days, times and frequency you would like
                     to change your desk position</p>
                 <div className="h-[1px] w-full bg-green translate-x-[40%]" ></div>
             </div>
-            <div className="schedule-container_row mt-5">
+            <div className="schedule-container_row mt-2">
                 <p className="text-xs font-bold">Week Days:</p>
-                <div className="btn-row flex row mt-4 mb-10">
+                <div className="btn-row flex row mt-4 mb-5">
                     {
                         [weekDays[6], ...weekDays.slice(0, -1)].map((el: string, i: number) => (
                             <div
@@ -157,7 +158,7 @@ const Schedule = (props: any) => {
                 <p style={{ minWidth: '70px', fontWeight: 600 }}>
                     Times:
                 </p>
-                <div>
+                <div className="z-200">
                     <p id="start_label">start at</p>
                     <Select
                         options={timeOptions}
