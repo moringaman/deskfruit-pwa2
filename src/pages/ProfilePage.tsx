@@ -16,8 +16,9 @@ import {
 import UserCard from '../components/UserCard'
 import UserCardSkeleton from '../components/UserCardSkeleton'
 import Schedule from '../components/Scheduler'
+import ControlButton from '../components/ui/ControlButton'
 import { useAppDispatch } from '../app/hooks'
-import { updateEnabledUser, updateDeskAsync } from '../features/desk/deskSlice'
+import { updateEnabledUser, updateDeskAsync, moveDeskAsync } from '../features/desk/deskSlice'
 import StandardButton from '../components/ui/StandardButton'
 import { getUserList } from '../lib/helpers'
 import moment from 'moment'
@@ -35,10 +36,12 @@ const ProfilePage = () => {
   const deskState = useSelector(desk)
   const userData = useSelector(enabledUserData)
   const { online } = deskState.device
-  const { status } = deskState
+  const { status, deskMoving } = deskState
   const { deskId, enabled, currentUser, userLoading } = deskState.desk
   const [users, setUsers] = useState<User[] | undefined>(deskState?.desk.users)
   const [editMode, setEditMode] = useState(false)
+  const [disableControls, setDisableControls] = useState(false)
+  const [ deskDirection, setDeskDirection ] = useState<string | undefined>(undefined)
   const { loggedIn } = useAuthRedirect()
   const dispatch = useAppDispatch()
 
@@ -82,6 +85,22 @@ const ProfilePage = () => {
 
 
     dispatch(updateDeskAsync({ update: { currentUser: id }, deskId }))
+  }
+
+
+  const moveDesk = async(direction:any) => {
+    console.log("Moving desk ", direction, deskId, deskMoving)
+     
+      if(disableControls === true) return
+      if(deskMoving) return
+      setDisableControls(true)
+      setDeskDirection(direction)
+      await dispatch(moveDeskAsync({id:deskId, direction}))
+      setTimeout(() => {
+        setDisableControls(false)
+        setDeskDirection('none')
+      }, 12000)
+      
   }
 
   const UserList = () => {
@@ -173,6 +192,9 @@ const ProfilePage = () => {
               </div>
               <div className="absolute right-6 top-[180px]">
                 <StandardButton text='Edit Config' action={() => toggleMode()} />
+              </div>
+              <div className="flex absolute top-[270px] left-[50%] -translate-x-[50%] w-full justify-center">
+                <ControlButton loading={deskDirection==="UP"} text="UP" onclick={moveDesk}/><ControlButton loading={deskDirection==="DN"} text="DN" onclick={moveDesk} />
               </div>
             </>
             : <><Schedule loading={status === 'loading'} user={currentUserData} switchMode={toggleMode}
