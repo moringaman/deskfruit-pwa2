@@ -196,7 +196,7 @@ const ProfilePage = () => {
                 <div className="">
                   <ControlButton loading={deskDirection === "UP"} cmd="UP" onclick={moveDesk} />
                 </div>
-                <div className="h-[2px] w-[50px] bg-black"></div>
+                {/* <div className="h-[2px] w-[50px] bg-black"></div> */}
                 <div className="">
                   <ControlButton loading={deskDirection === "DN"} cmd="DN" onclick={moveDesk} />
                 </div>

@@ -45,6 +45,9 @@ module.exports = {
       
     },
     extend: {
+      blur: {
+        xs: '2px',
+      },
       gradientColorStops: {
          'gradient-top-gold': '180deg, goldCrayola, goldCrayola2',
         // Define your gradients using the same values as above
