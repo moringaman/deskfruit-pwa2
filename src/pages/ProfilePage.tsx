@@ -192,7 +192,7 @@ const ProfilePage = () => {
               <div className="absolute right-6 top-[180px]">
                 <StandardButton text='Edit Config' action={() => toggleMode()} />
               </div>
-              <div className="flex flex-col items-center justify-between absolute top-[230px] left-[40px] translate-x-[10%] w-[60px] h-[160px] justify-center p-4 bg-green/[0.1] rounded-xl">
+              <div className="flex flex-col items-center justify-between absolute top-[-10px] right-[30px] translate-x-[10%] w-[60px] h-[160px] justify-center p-4 bg-green/[0.1] rounded-xl">
                 <div className="">
                   <ControlButton loading={deskDirection === "UP"} cmd="UP" onclick={moveDesk} />
                 </div>
@@ -201,7 +201,7 @@ const ProfilePage = () => {
                   <ControlButton loading={deskDirection === "DN"} cmd="DN" onclick={moveDesk} />
                 </div>
               </div>
-              <div className="px-2 text-xs absolute  font-semibold top-[300px] left-[-10px] -translate-x-[20%] text-white rounded-md -rotate-90">DESK CONTROL</div>
+              {/* <div className="px-2 text-xs absolute  font-semibold top-[60px] right-[-45px] -translate-x-[20%] text-gray rounded-md rotate-90">CONTROLS</div> */}
             </>
             : <><Schedule loading={status === 'loading'} user={currentUserData} switchMode={toggleMode}
               saveExpression={saveExpression} setEditMode={setEditMode}

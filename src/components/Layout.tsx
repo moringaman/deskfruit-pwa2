@@ -20,7 +20,7 @@ export default function Layout() {
                 </div>
             }
             {showNewUserButton &&
-                <div className="flex flex-row absolute top-[300px] right-6 items-center">
+                <div className="flex flex-row absolute top-[20px] right-6 items-center">
                     <p className="text-xs w-2 mr-8 leading-tight">Add User</p>
                     <button className="p-3 rounded-full bg-gray drop-shadow-lg flex items-center justify-center">
                         <Plus size={20} color="black" />
