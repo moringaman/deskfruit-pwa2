@@ -5,7 +5,6 @@ import { useAuthRedirect } from '../app/hooks'
 import { Navigate } from 'react-router-dom'
 import Skeleton from 'react-loading-skeleton'
 import 'react-loading-skeleton/dist/skeleton.css'
-
 import {
   // deskAdded,
   desk,
@@ -26,7 +25,7 @@ import moment from 'moment'
 const StatusSkeleton = () => {
   return (
     <div className="flex flex-row align-around">
-      <Skeleton  width={60}/><Skeleton width={50} className="ml-2"/><Skeleton className="ml-2" circle width={12} height={12} />
+      <Skeleton width={60} /><Skeleton width={50} className="ml-2" /><Skeleton className="ml-2" circle width={12} height={12} />
     </div>
   )
 }
@@ -41,7 +40,7 @@ const ProfilePage = () => {
   const [users, setUsers] = useState<User[] | undefined>(deskState?.desk.users)
   const [editMode, setEditMode] = useState(false)
   const [disableControls, setDisableControls] = useState(false)
-  const [ deskDirection, setDeskDirection ] = useState<string | undefined>(undefined)
+  const [deskDirection, setDeskDirection] = useState<string | undefined>(undefined)
   const { loggedIn } = useAuthRedirect()
   const dispatch = useAppDispatch()
 
@@ -64,17 +63,17 @@ const ProfilePage = () => {
     // }  
   }
 
-  const saveExpression = async(id: string, expression: string) => {
+  const saveExpression = async (id: string, expression: string) => {
     if (users === undefined) return
     const updated = getUserList(id, users, 'expression', expression)
     console.log("UPDATES ", updated)
     if (id === '00000000000') return
     //TODO: Check if enabled is same as currentUser
     // if (id === enabled) {
-      // dispatch(updateEnabledUser({ id: '0', deskId}))
+    // dispatch(updateEnabledUser({ id: '0', deskId}))
     await dispatch(updateDeskAsync({ update: { users: updated }, deskId, }))
-      setEditMode(false)
-      return
+    setEditMode(false)
+    return
     // }
     // }  
   }
@@ -88,25 +87,25 @@ const ProfilePage = () => {
   }
 
 
-  const moveDesk = async(direction:any) => {
+  const moveDesk = async (direction: any) => {
     console.log("Moving desk ", direction, deskId, deskMoving)
-     
-      if(disableControls === true) return
-      if(deskMoving) return
-      setDisableControls(true)
-      setDeskDirection(direction)
-      await dispatch(moveDeskAsync({id:deskId, direction}))
-      setTimeout(() => {
-        setDisableControls(false)
-        setDeskDirection('none')
-      }, 12000)
-      
+
+    if (disableControls === true) return
+    if (deskMoving) return
+    setDisableControls(true)
+    setDeskDirection(direction)
+    await dispatch(moveDeskAsync({ id: deskId, direction }))
+    setTimeout(() => {
+      setDisableControls(false)
+      setDeskDirection('none')
+    }, 12000)
+
   }
 
   const UserList = () => {
     console.log("users in userlist ", users, userLoading, userData)
     return (
-      
+
       <>
         {users && users.map((item, i) => (
           <UserCard
@@ -115,8 +114,8 @@ const ProfilePage = () => {
             loading={userLoading === item._id}
             user={item}
             selected={deskState?.desk?.enabled === item._id}
-            handleChange={!editMode ? enableUser : () => {}}
-            handleClick={!editMode ? selectCurrentUser : () => {}}
+            handleChange={!editMode ? enableUser : () => { }}
+            handleClick={!editMode ? selectCurrentUser : () => { }}
             key={i} />
         ))
         }
@@ -143,7 +142,7 @@ const ProfilePage = () => {
         <Navigate to="/" replace={true} />
       }
       <div className="flex-col absolute top-6 left-20 text-xs">
-        { online !== undefined ? <div className="flex flex-row">
+        {online !== undefined ? <div className="flex flex-row">
           <p>Device Status: </p>
           {online ?
             <div className="flex flex-row items-center ml-2 text-gray">
@@ -155,10 +154,10 @@ const ProfilePage = () => {
               <div className="bg-red rounded-full h-3 w-3 ml-2"></div>
             </div>
           }
-        </div> : <StatusSkeleton/>}
+        </div> : <StatusSkeleton />}
         <div>
           <p>Active User: <span className="text-gray">{userData && userData?.name}
-            </span></p>
+          </span></p>
         </div>
       </div>
 
@@ -166,7 +165,7 @@ const ProfilePage = () => {
       <div className="flex w-full h-52 justify-start overflow-scroll -mt-1 mb-6 pl-20">
         {currentUserData ?
           <UserList />
-          : <UserCardSkeleton cards={2}/>
+          : <UserCardSkeleton cards={2} />
         }
       </div>
       <div className="-translate-y-8">
@@ -178,24 +177,31 @@ const ProfilePage = () => {
                   Desk Settings
                 </p>
                 <p className="text-sm font-medium">
-                  {currentUserData && 'User:' } <span className="font-light"> {currentUserData?.name || <Skeleton width={150}/>} </span>
+                  {currentUserData && 'User:'} <span className="font-light"> {currentUserData?.name || <Skeleton width={150} />} </span>
                 </p>
                 <p className="text-sm font-medium">
-                {currentUserData && 'Seated Height:'}  <span className="font-light"> {currentUserData?.seatedHeight || <Skeleton width={150}/>}</span>
+                  {currentUserData && 'Seated Height:'}  <span className="font-light"> {currentUserData?.seatedHeight || <Skeleton width={150} />}</span>
                 </p>
                 <p className="text-sm font-medium">
-                {currentUserData &&  'Standing Height:'}  <span className="font-light"> {currentUserData?.standingHeight || <Skeleton width={150}/>}</span>
+                  {currentUserData && 'Standing Height:'}  <span className="font-light"> {currentUserData?.standingHeight || <Skeleton width={150} />}</span>
                 </p>
                 <p className="text-sm font-medium">
-                {currentUserData &&  'Last Active:'} <span className="font-light"> {moment(currentUserData?.lastUsage).fromNow() || <Skeleton width={150}/>}</span>
+                  {currentUserData && 'Last Active:'} <span className="font-light"> {moment(currentUserData?.lastUsage).fromNow() || <Skeleton width={150} />}</span>
                 </p>
               </div>
               <div className="absolute right-6 top-[180px]">
                 <StandardButton text='Edit Config' action={() => toggleMode()} />
               </div>
-              <div className="flex absolute top-[270px] left-[50%] -translate-x-[50%] w-full justify-center">
-                <ControlButton loading={deskDirection==="UP"} text="UP" onclick={moveDesk}/><ControlButton loading={deskDirection==="DN"} text="DN" onclick={moveDesk} />
+              <div className="flex flex-col items-center justify-between absolute top-[230px] left-[40px] translate-x-[10%] w-[60px] h-[160px] justify-center p-4 bg-green/[0.1] rounded-xl">
+                <div className="">
+                  <ControlButton loading={deskDirection === "UP"} cmd="UP" onclick={moveDesk} />
+                </div>
+                <div className="h-[2px] w-[50px] bg-black"></div>
+                <div className="">
+                  <ControlButton loading={deskDirection === "DN"} cmd="DN" onclick={moveDesk} />
+                </div>
               </div>
+              <div className="px-2 text-xs absolute  font-semibold top-[300px] left-[-10px] -translate-x-[20%] text-white rounded-md -rotate-90">DESK CONTROL</div>
             </>
             : <><Schedule loading={status === 'loading'} user={currentUserData} switchMode={toggleMode}
               saveExpression={saveExpression} setEditMode={setEditMode}

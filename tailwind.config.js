@@ -74,7 +74,7 @@ module.exports = {
           'swipe-up': {
             '0%': {
               transform: 'translateY(0)'
-            }
+            },
           },
           'swipe-down': {
             '0%': {
@@ -87,12 +87,31 @@ module.exports = {
              '100%': {
               transform: 'translateY(0)'
             }
-          }
+          },
+          'arrow-down': {
+            '0%': {
+              transform: 'translateY(-20px)'
+            },
+            '100%': {
+              transform: 'translateY(30px)',
+            } 
+          },
+          'arrow-up': {
+            '0%': {
+              transform: 'translateY(20px)'
+            },
+            '100%': {
+              transform: 'translateY(-30px)',
+            } 
+          },
+         
 
         },
         animation: {
             'swipe-down': 'swipe-down 2.5s ease-in-out infinite',
             'swipe-up': 'swipe-up 2.5s ease-out',
+            'arrow-up': 'arrow-up 2s infinite',
+            'arrow-down': 'arrow-down 2s infinite'
         }
     },
   },
