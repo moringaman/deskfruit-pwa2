@@ -1,5 +1,4 @@
-import { User } from '../features/desk/deskSlice'
-
+import { User, DIRECTION } from '../features/desk/deskSlice'
 
 export const getUserList = (id:string, users: User[], update:any, data:any):User[] => {
 
@@ -23,4 +22,14 @@ export const getUserList = (id:string, users: User[], update:any, data:any):User
     
   }
   return []
+}
+
+export function getDirection(value: string): DIRECTION| undefined {
+  const enumKey = Object.keys(DIRECTION).find(
+    (key) => DIRECTION[key as keyof typeof DIRECTION] === value
+  );
+  if (enumKey !== undefined) {
+    return DIRECTION[enumKey as keyof typeof DIRECTION];
+  }
+  return undefined;
 }

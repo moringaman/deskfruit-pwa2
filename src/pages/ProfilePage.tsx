@@ -9,6 +9,7 @@ import {
   // deskAdded,
   desk,
   enabledUserData,
+  getDeskPosition,
   User
   // Desk,
 } from '../features/desk/deskSlice'
@@ -16,6 +17,7 @@ import UserCard from '../components/UserCard'
 import UserCardSkeleton from '../components/UserCardSkeleton'
 import Schedule from '../components/Scheduler'
 import ControlButton from '../components/ui/ControlButton'
+import DeskControls from '../components/DeskControls'
 import { useAppDispatch } from '../app/hooks'
 import { updateEnabledUser, updateDeskAsync, moveDeskAsync } from '../features/desk/deskSlice'
 import StandardButton from '../components/ui/StandardButton'
@@ -36,7 +38,7 @@ const ProfilePage = () => {
   const userData = useSelector(enabledUserData)
   const { online } = deskState.device
   const { status, deskMoving } = deskState
-  const { deskId, enabled, currentUser, userLoading } = deskState.desk
+  const { deskId, enabled, currentUser, userLoading, position } = deskState.desk
   const [users, setUsers] = useState<User[] | undefined>(deskState?.desk.users)
   const [editMode, setEditMode] = useState(false)
   const [disableControls, setDisableControls] = useState(false)
@@ -98,8 +100,8 @@ const ProfilePage = () => {
     setTimeout(() => {
       setDisableControls(false)
       setDeskDirection('none')
+    deskId && dispatch(getDeskPosition(deskId))
     }, 12000)
-
   }
 
   const UserList = () => {
@@ -192,15 +194,15 @@ const ProfilePage = () => {
               <div className="absolute right-6 top-[180px]">
                 <StandardButton text='Edit Config' action={() => toggleMode()} />
               </div>
-              <div className="flex flex-col items-center justify-between absolute top-[-10px] right-[30px] translate-x-[10%] w-[60px] h-[160px] justify-center p-4 bg-green/[0.1] rounded-xl">
+              {/* <div className="flex flex-col items-center justify-between absolute top-[-10px] right-[30px] translate-x-[10%] w-[60px] h-[160px] justify-center p-4 bg-green/[0.1] rounded-xl">
                 <div className="">
-                  <ControlButton loading={deskDirection === "UP"} cmd="UP" onclick={moveDesk} />
+                  <ControlButton loading={deskDirection === "up"} position={position} cmd="up" onclick={position === 'down' ? moveDesk : () => {}} />
                 </div>
-                {/* <div className="h-[2px] w-[50px] bg-black"></div> */}
                 <div className="">
-                  <ControlButton loading={deskDirection === "DN"} cmd="DN" onclick={moveDesk} />
+                  <ControlButton loading={deskDirection === "down"} position={position} cmd="down" onclick={position === 'up' ? moveDesk: () => {}} />
                 </div>
-              </div>
+              </div> */}
+              <DeskControls deskDirection={deskDirection} position={position} moveDesk={moveDesk} />
               {/* <div className="px-2 text-xs absolute  font-semibold top-[60px] right-[-45px] -translate-x-[20%] text-gray rounded-md rotate-90">CONTROLS</div> */}
             </>
             : <><Schedule loading={status === 'loading'} user={currentUserData} switchMode={toggleMode}

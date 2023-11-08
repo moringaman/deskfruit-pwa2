@@ -10,6 +10,7 @@ import {
   getDeskAsync,
   getDeviceAsync,
   deskCleared,
+  getDeskPosition
 } from '../features/desk/deskSlice'
 
 export default function Footer() {
@@ -43,6 +44,7 @@ export default function Footer() {
       const { deskId } = userInfo //JSON.parse(userInfo);
       dispatch(getDeviceAsync(deskId))
       dispatch(getDeskAsync(deskId))
+      dispatch(getDeskPosition(deskId))
     } else {
       // no user info in local storage redirect
       console.log("No user Info found in local storage, redirecting", userInfo)
