@@ -202,7 +202,10 @@ const ProfilePage = () => {
                   <ControlButton loading={deskDirection === "down"} position={position} cmd="down" onclick={position === 'up' ? moveDesk: () => {}} />
                 </div>
               </div> */}
+              {userData && userData.name === 'None' &&
+
               <DeskControls deskDirection={deskDirection} position={position} moveDesk={moveDesk} />
+              }
               {/* <div className="px-2 text-xs absolute  font-semibold top-[60px] right-[-45px] -translate-x-[20%] text-gray rounded-md rotate-90">CONTROLS</div> */}
             </>
             : <><Schedule loading={status === 'loading'} user={currentUserData} switchMode={toggleMode}
