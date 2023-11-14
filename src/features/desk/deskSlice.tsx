@@ -24,7 +24,7 @@ export interface User {
 
 export interface Desk {
   users: User[] | undefined
-  position: 'up' | 'down' | '' 
+  position: 'up' | 'down' | 'unknown' 
   id: string | undefined
   deskId: string | undefined
   name: string | undefined
@@ -77,7 +77,8 @@ export enum DIRECTION {
 
 export enum POSITION {
   down = 1,
-  up = 0
+  up = 0,
+  unknown = 2
 }
 
 const delay = (ms:number) => new Promise(res => setTimeout(res, ms));
@@ -211,6 +212,9 @@ const deskSlice = createSlice({
     builder
       .addCase(getDeskPosition.fulfilled, (state, action) => {
         state.desk.position = POSITION[action.payload?.position]
+      })
+      .addCase(getDeskPosition.rejected, (state, action) => {
+        state.desk.position = POSITION[3]
       })
       .addCase(moveDeskAsync.pending, (state, action) => {
          console.log("PAYLOAD" , action.payload)

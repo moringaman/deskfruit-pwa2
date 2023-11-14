@@ -1,5 +1,5 @@
 
-import { useState, useMemo } from 'react'
+import { useState, useMemo, useEffect } from 'react'
 import { useSelector } from 'react-redux'
 import { useAuthRedirect } from '../app/hooks'
 import { Navigate } from 'react-router-dom'
@@ -9,17 +9,15 @@ import {
   // deskAdded,
   desk,
   enabledUserData,
-  getDeskPosition,
   User
   // Desk,
 } from '../features/desk/deskSlice'
 import UserCard from '../components/UserCard'
 import UserCardSkeleton from '../components/UserCardSkeleton'
 import Schedule from '../components/Scheduler'
-import ControlButton from '../components/ui/ControlButton'
 import DeskControls from '../components/DeskControls'
 import { useAppDispatch } from '../app/hooks'
-import { updateEnabledUser, updateDeskAsync, moveDeskAsync } from '../features/desk/deskSlice'
+import { updateEnabledUser, updateDeskAsync, moveDeskAsync, getDeskPosition } from '../features/desk/deskSlice'
 import StandardButton from '../components/ui/StandardButton'
 import { getUserList } from '../lib/helpers'
 import moment from 'moment'
@@ -43,6 +41,7 @@ const ProfilePage = () => {
   const [editMode, setEditMode] = useState(false)
   const [disableControls, setDisableControls] = useState(false)
   const [deskDirection, setDeskDirection] = useState<string | undefined>(undefined)
+  const [deskPosition, setDeskPosition ] = useState(position)
   const { loggedIn } = useAuthRedirect()
   const dispatch = useAppDispatch()
 
@@ -58,9 +57,11 @@ const ProfilePage = () => {
     if (id === '00000000000') return
     if (id === enabled) {
       dispatch(updateEnabledUser({ id: '0', deskId }))
+      deskId && dispatch(getDeskPosition(deskId))
       return
     }
     dispatch(updateEnabledUser({ id, deskId, users: updated }))
+   deskId && dispatch(getDeskPosition(deskId))
     console.log("UPDATES ", updated)
     // }  
   }
@@ -133,6 +134,10 @@ const ProfilePage = () => {
     setUsers(deskState?.desk.users)
   }, [deskState])
 
+  useEffect(() => {
+    setDeskPosition(position)
+  }, [position])
+
   console.log('Logged in', loggedIn)
   console.log('Users', users)
   console.log('Status', deskState?.status, 'Online ', online)
@@ -202,9 +207,10 @@ const ProfilePage = () => {
                   <ControlButton loading={deskDirection === "down"} position={position} cmd="down" onclick={position === 'up' ? moveDesk: () => {}} />
                 </div>
               </div> */}
-              {userData && userData.name === 'None' &&
+              {userData &&
+              // userData.name === 'None' &&
 
-              <DeskControls deskDirection={deskDirection} position={position} moveDesk={moveDesk} />
+              <DeskControls deskDirection={deskDirection} position={deskPosition} moveDesk={moveDesk} disabled={userData.name !== "None"}/>
               }
               {/* <div className="px-2 text-xs absolute  font-semibold top-[60px] right-[-45px] -translate-x-[20%] text-gray rounded-md rotate-90">CONTROLS</div> */}
             </>
