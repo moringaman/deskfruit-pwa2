@@ -198,12 +198,10 @@ const deskSlice = createSlice({
     },
     deskCleared: (state) => {
       state.desk = initialState.desk
+    },
+    deskPositionUpdated: (state, action) => {
+      state.desk.position = POSITION[action.payload]
     }
-    // todoToggled:(state, action:PayloadAction<number>) => {
-    //   const todo = state.data.find(todo => todo.id === action.payload)
-    //   if(todo)
-    //   todo.completed = !todo.completed
-    // },
 
   },
   // The `extraReducers` field lets the slice handle actions defined elsewhere,
@@ -281,5 +279,5 @@ export const enabledUserData = (state: RootState) => {
   const enabled = state.desk.desk.enabled
    return state.desk.desk.users.find(user => user['_id'] === enabled) || {name: 'None'} 
 }
-export const { deskAdded, deskUserAdded, deskCleared } = deskSlice.actions
+export const { deskAdded, deskUserAdded, deskCleared, deskPositionUpdated } = deskSlice.actions
 export default deskSlice.reducer

@@ -1,5 +1,6 @@
 import { useEffect } from 'react'
 import _ from 'lodash'
+import WebSocketComponent from './WebSocketComponent'
 import { FooterButton } from './ui/FooterButton'
 import { ChevronUp, ChevronDown, User, LogOut, Settings } from 'react-feather'
 import { uiConfig } from '../config'
@@ -10,7 +11,7 @@ import {
   getDeskAsync,
   getDeviceAsync,
   deskCleared,
-  getDeskPosition
+  getDeskPosition,
 } from '../features/desk/deskSlice'
 
 export default function Footer() {
@@ -29,6 +30,7 @@ export default function Footer() {
   if(_.isEmpty(userInfo)) {
     redirect()
   }
+      const { deskId } = userInfo //JSON.parse(userInfo);
 
   console.log("show footer ", showFooter)
   const Logout = () => {
@@ -50,7 +52,7 @@ export default function Footer() {
       console.log("No user Info found in local storage, redirecting", userInfo)
       redirect()
     }
-  }, [])
+  }, [dispatch, userInfo])
 
   const RenderedCode = () => {
     return (
@@ -80,7 +82,9 @@ export default function Footer() {
   return (
     <>
       {
-        showFooter ? <RenderedCode /> : <Copywrite />
+        showFooter ? <><RenderedCode />
+        {deskId && <WebSocketComponent deskId={deskId} />}
+        </> : <Copywrite />
       }
     </>
   )

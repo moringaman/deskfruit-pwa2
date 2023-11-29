@@ -45,8 +45,10 @@ const ProfilePage = () => {
   const { loggedIn } = useAuthRedirect()
   const dispatch = useAppDispatch()
 
-  const currentUserData = users?.find(user => user._id === currentUser)
 
+
+  const currentUserData = users?.find(user => user._id === currentUser)
+  
   const enableUser = (e: any, id: string) => {
     console.log("Event ?", e)
     e.stopPropagation()
@@ -138,6 +140,7 @@ const ProfilePage = () => {
     setDeskPosition(position)
   }, [position])
 
+
   console.log('Logged in', loggedIn)
   console.log('Users', users)
   console.log('Status', deskState?.status, 'Online ', online)
@@ -207,10 +210,11 @@ const ProfilePage = () => {
                   <ControlButton loading={deskDirection === "down"} position={position} cmd="down" onclick={position === 'up' ? moveDesk: () => {}} />
                 </div>
               </div> */}
-              {userData &&
+              {userData && deskId &&
               // userData.name === 'None' &&
 
-              <DeskControls deskDirection={deskDirection} position={deskPosition} moveDesk={moveDesk} disabled={userData.name !== "None"}/>
+              <DeskControls deskId={deskId} deskDirection={deskDirection} position={deskPosition} moveDesk={moveDesk} disabled={false} />
+             // disabled={userData.name !== "None"}/>
               }
               {/* <div className="px-2 text-xs absolute  font-semibold top-[60px] right-[-45px] -translate-x-[20%] text-gray rounded-md rotate-90">CONTROLS</div> */}
             </>

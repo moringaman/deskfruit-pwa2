@@ -1,41 +1,7 @@
+
 import {useEffect, useState, useRef } from 'react'
-import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux';
-import type { RootState, AppDispatch } from './store';
-import { auth } from '../features/auth/authenticationSlice'
 import {io} from 'socket.io-client'
-import { API_BASE_URL } from '../config'
-// Use throughout your app instead of plain `useDispatch` and `useSelector`
-export const useAppDispatch = () => useDispatch<AppDispatch>();
-export const useAppSelector: TypedUseSelectorHook<RootState> = useSelector;
-
-export const useAuthRedirect = () => {
-    const authState = useAppSelector(auth)
-    const [loggedIn, setLoggedIn] = useState(authState.isLoggedIn)
-
-
-    useEffect(() => {
-        if(authState.isLoggedIn) {
-         setLoggedIn(true)
-        } else {
-            setLoggedIn(false)
-        }
-    }, [authState])
-
-
-    return {
-       loggedIn
-    }
-}
-
-export const useLocalStorage = (item:string) => {
-    try {
-        const result: any = localStorage.getItem(item)
-        if(result) return JSON.parse(result)
-    }catch (err) {
-        return {}
-    }
-}
-
+import { API_BASE_URL } from '../../config'
 
 type Props = {
     id: string
@@ -51,7 +17,7 @@ type Message = {
     clientId: string
 }
 
-export const useWebsockets = ({id, enabled, onConnected, onMessage}: Props) => {
+const useWebsockets = ({id, enabled, onConnected, onMessage}: Props) => {
 
     const ref = useRef<any>() // Add types for SocketIOClient.Socket
     const [ messages, setMessages] = useState([])
@@ -90,6 +56,7 @@ export const useWebsockets = ({id, enabled, onConnected, onMessage}: Props) => {
 
         socket.on('disconnect', () => {
             console.log('Websocket Disconnected')
+            setMessages([])
         })
 
         socket.on('connect', () => {
@@ -116,3 +83,5 @@ export const useWebsockets = ({id, enabled, onConnected, onMessage}: Props) => {
         send: send
     }
 }
+
+export default useWebsockets
