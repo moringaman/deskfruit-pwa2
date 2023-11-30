@@ -24,7 +24,7 @@ const WebSocketComponent = (props: DefaultProps) => {
           position: toast.POSITION.BOTTOM_CENTER,
           toastId: 'message2'
         })
-        toast.clearWaitingQueue()
+        //toast.clearWaitingQueue()
        },
       onMessage: async () => {
         //if(!messages.length) return
