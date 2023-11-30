@@ -24,15 +24,17 @@ const WebSocketComponent = (props: DefaultProps) => {
           position: toast.POSITION.BOTTOM_CENTER,
           toastId: 'message2'
         })
+        toast.clearWaitingQueue()
        },
       onMessage: async () => {
-        console.log("message recieved")
-        const latestMessage = messages[messages.length] || {}
-        toast.info(`Your desk is in the ${latestMessage['event'] === 0 ? 'up' : 'down'} position`,
-          { position: toast.POSITION.BOTTOM_CENTER,
-            toastId: 'message1' }
-        )
-        toast.clearWaitingQueue()
+        //if(!messages.length) return
+      //   const latestMessage = messages[messages.length -1] || []
+      //   console.log("message recieved", messages)
+      //   toast.info(`Your desk is in the ${latestMessage['event'] === 0 ? 'up' : 'down'} position`,
+      //     { position: toast.POSITION.BOTTOM_CENTER,
+      //       toastId: 'message1' }
+      //   )
+      //   toast.clearWaitingQueue()
       }
     }
   )
@@ -44,9 +46,9 @@ const WebSocketComponent = (props: DefaultProps) => {
     if (latestMessage && latestMessage['type'] === 'position') {
       console.log('Websocket message & dispatch', latestMessage)
 
-      // toast.info(`You desk is in the ${latestMessage['event'] === 0 ? 'up' : 'down'} position`, 
-      // { position: toast.POSITION.BOTTOM_CENTER }
-      // )
+      toast.info(`Your desk is in the ${latestMessage['event'] === 0 ? 'up' : 'down'} position`, 
+      { position: toast.POSITION.BOTTOM_CENTER }
+      )
       dispatch(deskPositionUpdated(latestMessage['event']))
     }
     // setMessageList(messages)
