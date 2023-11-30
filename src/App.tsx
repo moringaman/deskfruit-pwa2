@@ -5,6 +5,7 @@ import Layout from './components/Layout'
 import { store } from './app/store';
 import { Provider } from 'react-redux';
 import { SkeletonTheme } from 'react-loading-skeleton';
+import { ToastContainer } from 'react-toastify'
 
 
 import './App.css';
@@ -38,6 +39,7 @@ function App() {
         </Provider>
       </ConfigCatProvider>
       </SkeletonTheme>
+      <ToastContainer limit={1} />
     </div>
   );
 }
