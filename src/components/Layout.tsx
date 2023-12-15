@@ -35,7 +35,10 @@ export default function Layout() {
                     <Outlet />
                 </div>
             </div>
-            <Footer />
+            {
+                showHeader &&
+                <Footer />
+            }
         </div>
     )
 }

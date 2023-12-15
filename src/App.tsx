@@ -39,7 +39,10 @@ function App() {
         </Provider>
       </ConfigCatProvider>
       </SkeletonTheme>
-      <ToastContainer limit={1} />
+      <ToastContainer 
+      limit={1} 
+      toastStyle={{background: '#25282B', color: 'green'}}
+      />
     </div>
   );
 }

@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+
 import _ from 'lodash'
 import WebSocketComponent from './WebSocketComponent'
 import { FooterButton } from './ui/FooterButton'
@@ -7,6 +7,7 @@ import { uiConfig } from '../config'
 import { logout } from '../features/auth/authenticationSlice'
 import { useLocation, Navigate } from 'react-router-dom';
 import { useAppDispatch, useLocalStorage } from '../app/hooks'
+import { useEffect } from 'react'
 import {
   getDeskAsync,
   getDeviceAsync,
@@ -30,7 +31,7 @@ export default function Footer() {
   if(_.isEmpty(userInfo)) {
     redirect()
   }
-      const { deskId } = userInfo //JSON.parse(userInfo);
+  const { deskId } = userInfo || '' //JSON.parse(userInfo);
 
   console.log("show footer ", showFooter)
   const Logout = () => {
