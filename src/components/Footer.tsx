@@ -7,7 +7,7 @@ import { uiConfig } from '../config'
 import { logout } from '../features/auth/authenticationSlice'
 import { useLocation, Navigate } from 'react-router-dom';
 import { useAppDispatch, useLocalStorage } from '../app/hooks'
-import { useEffect } from 'react'
+import { useEffect, memo } from 'react'
 import {
   getDeskAsync,
   getDeviceAsync,
@@ -15,7 +15,7 @@ import {
   getDeskPosition,
 } from '../features/desk/deskSlice'
 
-export default function Footer() {
+const Footer = memo(function() {
 
   const location = useLocation()
   const showFooter = uiConfig.hasFooterMenu.includes(location.pathname.substring(1))
@@ -89,4 +89,6 @@ export default function Footer() {
       }
     </>
   )
-}
+})
+
+export default Footer

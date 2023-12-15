@@ -1,64 +1,65 @@
 import useWebsockets from '../app/custom_hooks/useWebsockets'
 import { useAppDispatch } from '../app/hooks'
-import { useEffect } from 'react'
+import { memo } from 'react'
+import { signal, effect } from '@preact/signals-react'
 import { deskPositionUpdated } from '../features/desk/deskSlice'
-import { toast, ToastContainer } from 'react-toastify';
+import { toast } from 'react-toastify';
 import "react-toastify/dist/ReactToastify.css";
 
 type DefaultProps = {
   deskId: string
 }
 
-const WebSocketComponent = (props: DefaultProps) => {
+const WebSocketComponent = memo((props: DefaultProps) => {
 
-
+ const prevMessage = signal(null)
   const dispatch = useAppDispatch()
   const { deskId } = props
 
-  const { messages } = useWebsockets(
+  const { messages, latestMessage } = useWebsockets(
     {
       id: deskId, //|| 'copy-e00fce68a7754c1f1611d9f5',
       enabled: true,
       onConnected: () => {
-        toast.success('You are connected to the Deskfruit Server', {
+        toast.success('Successfully connected to the Deskfruit Server', {
           position: toast.POSITION.BOTTOM_CENTER,
           toastId: 'message2'
         })
         //toast.clearWaitingQueue()
        },
-      onMessage: async () => {
-        //if(!messages.length) return
-      //   const latestMessage = messages[messages.length -1] || []
-      //   console.log("message recieved", messages)
-      //   toast.info(`Your desk is in the ${latestMessage['event'] === 0 ? 'up' : 'down'} position`,
-      //     { position: toast.POSITION.BOTTOM_CENTER,
-      //       toastId: 'message1' }
-      //   )
-      //   toast.clearWaitingQueue()
+     onMessage: async () => {
+    //     console.log('LATEST ', latestMessage)
+    //     if(!messages.value.length) return
+    //     // if(!!prevMessage.value) {
+    //     //   if(latestMessage['event'] === (prevMessage.value['event'])) return
+    //     // }
+    //     // const latestMessage = messages.value[messages.value.length -1] || []
+    //   //  if (latestMessage['event'] === '3') return // cannot get desk position
+    //     console.log("message recieved", messages.value)
+    //     toast.success(`Your desk is in the ${latestMessage.value['event'] === 0 ? 'up' : 'down'} position`,
+    //       { position: toast.POSITION.BOTTOM_CENTER,
+    //         toastId: 'message1' }
+    //     )
+    //     prevMessage.value = latestMessage 
+    // //   //   toast.clearWaitingQueue()
       }
     }
   )
 
-  useEffect(() => {
-    console.log("Websocket messages in desk controls", messages)
-    const latestMessage = messages[messages.length - 1] || {}
-    console.log('Websockets latest', latestMessage)
-    if (latestMessage && latestMessage['type'] === 'position') {
-      console.log('Websocket message & dispatch', latestMessage)
-
-      toast.info(`Your desk is in the ${latestMessage['event'] === 0 ? 'up' : 'down'} position`, 
+  effect(() => {
+   if(latestMessage.value == undefined) return
+    if (latestMessage.value && latestMessage.value['type'] === 'position') {
+      toast.success(`Your desk is in the ${latestMessage.value['event'] === 0 ? 'up' : 'down'} position`, 
       { position: toast.POSITION.BOTTOM_CENTER }
       )
-      dispatch(deskPositionUpdated(latestMessage['event']))
+      dispatch(deskPositionUpdated(latestMessage.value['event']))
     }
-    // setMessageList(messages)
-  }, [messages, dispatch])
+  })
 
   return (
     <>
-    {/* <ToastContainer limit={1} /> */}
     </>
   )
-}
+})
 
 export default WebSocketComponent

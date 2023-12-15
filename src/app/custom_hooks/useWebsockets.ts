@@ -1,7 +1,8 @@
 
-import {useEffect, useState, useRef } from 'react'
+import {useRef } from 'react'
 import {io} from 'socket.io-client'
 import { API_BASE_URL } from '../../config'
+import { signal, effect } from '@preact/signals-react'
 
 type Props = {
     id: string
@@ -20,7 +21,13 @@ type Message = {
 const useWebsockets = ({id, enabled, onConnected, onMessage}: Props) => {
 
     const ref = useRef<any>() // Add types for SocketIOClient.Socket
-    const [ messages, setMessages] = useState([])
+    // const [ messages, setMessages] = useState([])
+    const messages = signal([])
+    const latestMessage = signal(undefined)
+
+    // const latestMessage = computed(() => 
+    //          messages.value.length > 0 ? messages.value[messages.value.length - 1]: messages.value[0]
+    // ) 
 
     const send = (msg: string,id:string ) => {
         ref.current.emit('message', {
@@ -30,7 +37,7 @@ const useWebsockets = ({id, enabled, onConnected, onMessage}: Props) => {
         })
     }
 
-    useEffect(():any => {
+    effect(():any => {
         if(!enabled) return
 
         const socket = io(`${API_BASE_URL}/events`)
@@ -38,15 +45,16 @@ const useWebsockets = ({id, enabled, onConnected, onMessage}: Props) => {
         socket.emit('message', id);
 
         socket.emit('newMessage', (msg: any) => {
-            if(msg) {
-                setMessages(prev => prev.concat(msg) )
-            }
-            console.log("Websocket Messages", messages)
+            // if(msg) {
+            //     messages.value = messages.value.concat(msg)
+            // }
+            //console.log("Websocket Messages", messages)
         })
 
         socket.on('newMessage', (data:any) => {
             if(data) {
-                setMessages(prev => prev.concat(data) )
+               messages.value = messages.value.concat(data)
+               latestMessage.value = data
                 if(onMessage) {
                     onMessage()
                 }
@@ -56,7 +64,7 @@ const useWebsockets = ({id, enabled, onConnected, onMessage}: Props) => {
 
         socket.on('disconnect', () => {
             console.log('Websocket Disconnected')
-            setMessages([])
+            // setMessages([])
         })
 
         socket.on('connect', () => {
@@ -67,7 +75,7 @@ const useWebsockets = ({id, enabled, onConnected, onMessage}: Props) => {
         })
 
         socket.on('reconnect' , () => {
-            console.log('Websocket reconnected')
+            //console.log('Websocket reconnected')
             socket.emit('messages', id);
         })
 
@@ -76,10 +84,11 @@ const useWebsockets = ({id, enabled, onConnected, onMessage}: Props) => {
 
         return () => socket.disconnect()
 
-    }, [enabled, id, onConnected])
+    })
 
     return {
         messages: messages,
+        latestMessage: latestMessage,
         send: send
     }
 }
